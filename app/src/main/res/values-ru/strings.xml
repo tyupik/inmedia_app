@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">InMedia</string>
+    <string name="title_profile">Профиль</string>
+    <string name="title_feed">Лента</string>
+    <string name="title_events">События</string>
+    <string name="empty_posts">"    Постов нет.\\nЕсли создадите новый пост, то он появится здесь "</string>
+</resources>

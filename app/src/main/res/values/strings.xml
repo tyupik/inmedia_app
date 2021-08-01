@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">InMedia</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_feed">Feed</string>
+    <string name="title_events">Events</string>
+    <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
+</resources>
