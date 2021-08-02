@@ -84,9 +84,9 @@ data class AttachmentEmbeddable(
 
 data class CoordinatesEmbeddable(
     val lat: Double,
-    val long: Double,
+    val longitude: Double,
 ) {
-    fun toDto() = Coordinates(lat, long)
+    fun toDto() = Coordinates(lat, longitude)
 
     companion object {
         fun fromDto(dto: Coordinates?) = dto?.let {
