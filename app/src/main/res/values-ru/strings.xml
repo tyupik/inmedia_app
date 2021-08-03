@@ -5,4 +5,6 @@
     <string name="title_feed">Лента</string>
     <string name="title_events">События</string>
     <string name="empty_posts">"    Постов нет.\\nЕсли создадите новый пост, то он появится здесь "</string>
+    <string name="menu_remove">Удалить</string>
+    <string name="menu_edit">Редактировать</string>
 </resources>

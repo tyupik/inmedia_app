@@ -4,4 +4,6 @@
     <string name="title_feed">Feed</string>
     <string name="title_events">Events</string>
     <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
+    <string name="menu_remove">Remove</string>
+    <string name="menu_edit">Edit</string>
 </resources>

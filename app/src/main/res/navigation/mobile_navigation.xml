@@ -15,11 +15,21 @@
         android:id="@+id/navigation_dashboard"
         android:name="ru.netology.inmedia.ui.feed.FeedFragment"
         android:label="@string/title_feed"
-        tools:layout="@layout/fragment_feed" />
+        tools:layout="@layout/fragment_feed">
+
+        <action
+            android:id="@+id/action_feedFragment_to_attach_photo_viewer"
+            app:destination="@id/attach_photo_viewer" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="ru.netology.inmedia.ui.events.EventsFragment"
         android:label="@string/title_events"
         tools:layout="@layout/fragment_events" />
+    <fragment
+        android:id="@+id/attach_photo_viewer"
+        android:name="ru.netology.inmedia.ui.AttachViewerFragment"
+        tools:layout="@layout/fragment_attach_photo_viewer" />
 </navigation>
