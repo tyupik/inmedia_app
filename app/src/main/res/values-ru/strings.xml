@@ -7,4 +7,14 @@
     <string name="empty_posts">"    Постов нет.\\nЕсли создадите новый пост, то он появится здесь "</string>
     <string name="menu_remove">Удалить</string>
     <string name="menu_edit">Редактировать</string>
+    <string name="menu_save">Сохранить</string>
+    <string name="remove">Удалить</string>
+    <string name="description_photo">Фото</string>
+    <string name="description_select_photo">Выбрать фото</string>
+    <string name="description_take_photo">Сделать фото</string>
+    <string name="retry_loading">Повторить</string>
+    <string name="error_loading">Не удалось загрузить данные</string>
+    <string name="Sing_in">Вход</string>
+    <string name="sign_up">Регистрация</string>
+    <string name="sign_out">Выход</string>
 </resources>

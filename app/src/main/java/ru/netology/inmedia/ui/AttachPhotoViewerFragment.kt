@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.inmedia.BuildConfig
 import ru.netology.inmedia.R
 import ru.netology.inmedia.databinding.FragmentAttachPhotoViewerBinding
+import ru.netology.inmedia.ui.NewPostFragment.Companion.textArg
 
 @AndroidEntryPoint
 class AttachViewerFragment : Fragment() {

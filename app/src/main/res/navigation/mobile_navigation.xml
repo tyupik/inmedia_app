@@ -20,6 +20,10 @@
         <action
             android:id="@+id/action_feedFragment_to_attach_photo_viewer"
             app:destination="@id/attach_photo_viewer" />
+
+        <action
+            android:id="@+id/action_feedFragment_to_new_post_fragment"
+            app:destination="@id/fragment_new_post" />
     </fragment>
 
 
@@ -32,4 +36,10 @@
         android:id="@+id/attach_photo_viewer"
         android:name="ru.netology.inmedia.ui.AttachViewerFragment"
         tools:layout="@layout/fragment_attach_photo_viewer" />
+
+    <fragment
+        android:id="@+id/fragment_new_post"
+        android:name="ru.netology.inmedia.ui.NewPostFragment"
+        tools:layout="@layout/fragment_new_post" />
+
 </navigation>

@@ -60,6 +60,7 @@ dependencies {
     def retrofitgson_version = "2.9.0"
     def okhttploggin_version = "4.9.1"
     def coroutines_version = "1.4.3"
+    def imagepicker_version = "1.7.1"
 
     implementation "androidx.coordinatorlayout:coordinatorlayout:$coordinatorlayout_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -82,6 +83,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitgson_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutines_version"
+    implementation "com.github.dhaval2404:imagepicker:$imagepicker_version"
 
 
 

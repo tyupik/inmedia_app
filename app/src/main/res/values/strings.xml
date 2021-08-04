@@ -6,4 +6,14 @@
     <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
     <string name="menu_remove">Remove</string>
     <string name="menu_edit">Edit</string>
+    <string name="menu_save">Save</string>
+    <string name="remove">Remove</string>
+    <string name="description_photo">Photo</string>
+    <string name="description_select_photo">Select photo</string>
+    <string name="description_take_photo">Take photo</string>
+    <string name="retry_loading">Retry</string>
+    <string name="error_loading">Something went wrong</string>
+    <string name="Sing_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_out">Sign Out</string>
 </resources>

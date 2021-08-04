@@ -132,12 +132,16 @@ class PostViewModel @Inject constructor(
         edited.value = edited.value?.copy(content = text)
     }
 
-    fun save(post: Post) = viewModelScope.launch {
-        try {
-            postRepository.save(post)
-            _dataState.value = FeedModelState()
-        } catch (e: Exception) {
-            _dataState.value = FeedModelState(error = true)
+    fun save() = viewModelScope.launch {
+        edited.value?.let { post ->
+           viewModelScope.launch {
+               try {
+                   postRepository.save(post)
+                   _dataState.value = FeedModelState()
+               } catch (e: Exception) {
+                   _dataState.value = FeedModelState(error = true)
+               }
+           }
         }
     }
 

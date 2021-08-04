@@ -84,6 +84,16 @@ class AppAuth @Inject constructor(
         }
         sendPushToken(token)
     }
+
+    @Synchronized
+    fun removeAuth() {
+        _authStateFlow.value = AuthState()
+        with(prefs.edit()) {
+            clear()
+            commit()
+        }
+        sendPushToken()
+    }
 }
 
 data class AuthState(val id: Long = 0, val token: String? = null)
