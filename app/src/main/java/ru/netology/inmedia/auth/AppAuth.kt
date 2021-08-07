@@ -72,7 +72,7 @@ class AppAuth @Inject constructor(
         return hiltEntryPint.postApiService()
     }
 
-    val authStateFlow : StateFlow<AuthState> = _authStateFlow.asStateFlow()
+    val authStateFlow: StateFlow<AuthState> = _authStateFlow.asStateFlow()
 
     @Synchronized
     fun setAuth(id: Long, token: String?) {
@@ -86,6 +86,32 @@ class AppAuth @Inject constructor(
     }
 
     @Synchronized
+    fun setAuthTyupik(login: String, pass: String, token: String) {
+        CoroutineScope(Dispatchers.Default).launch {
+            try {
+                getPostApiService(context).sendAuth(login, pass)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            sendPushToken(token)
+        }
+    }
+
+
+
+    @Synchronized
+    fun setRegistration(login: String, pass: String, name: String) {
+        CoroutineScope(Dispatchers.Default).launch {
+            try {
+                getPostApiService(context).registration(login, pass, name)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+    @Synchronized
     fun removeAuth() {
         _authStateFlow.value = AuthState()
         with(prefs.edit()) {
@@ -97,3 +123,4 @@ class AppAuth @Inject constructor(
 }
 
 data class AuthState(val id: Long = 0, val token: String? = null)
+data class RecipientInfo(val recipientId: String, val content: String)

@@ -8,7 +8,7 @@ import ru.netology.inmedia.dto.PushToken
 
 interface PostApiService {
 
-    @POST("users/push-tokens")
+    @POST("api/users/push-tokens")
     suspend fun save(@Body pushToken: PushToken): Response<Unit>
 
     @GET("api/posts/latest")
@@ -31,4 +31,10 @@ interface PostApiService {
         @Path("id") id: Long,
         @Query("count") count: Int
     ): Response<List<Post>>
+
+    @POST("api/users/registration")
+    suspend fun registration(@Body login: String, pass: String, name: String): Response<Unit>
+
+    @POST("api/users/authentication")
+    suspend fun sendAuth(@Body login: String, pass: String): Response<Unit>
 }

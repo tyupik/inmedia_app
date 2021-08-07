@@ -22,7 +22,7 @@ import javax.inject.Singleton
 class PostApiModule {
 
     companion object {
-        private const val BASE_URL = "${BuildConfig.BASE_URL}/api/"
+        private const val BASE_URL = "${BuildConfig.BASE_URL}/"
     }
 
     @Provides

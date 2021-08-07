@@ -109,14 +109,17 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.signin -> {
-                auth.setAuth(5, "x-token")
+
+                //Хардкодинг
+                auth.setAuth(1, "token")
+                auth.setAuthTyupik("tyupik", "tyupik", "token")
                 Toast.makeText(this, "АВТОРИЗАЦИЯ", Toast.LENGTH_SHORT).show()
-//                findNavController(R.id.nav_host_fragment).navigate(R.id.action_feedFragment_to_fragment_login)
                 true
             }
             R.id.signup -> {
-                auth.setAuth(5, "x-token")
-                Toast.makeText(this, "Потом", Toast.LENGTH_SHORT).show()
+//                auth.setAuth(5, "x-token")
+                auth.setRegistration("tyupik", "tyupik","tyupik")
+                Toast.makeText(this, "Регистрация", Toast.LENGTH_SHORT).show()
                 true
             }
             R.id.signout -> {
