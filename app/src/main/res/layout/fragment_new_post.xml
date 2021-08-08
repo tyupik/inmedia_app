@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.NewPostFragment">
 
-    <ScrollView
+    <FrameLayout
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -23,6 +24,7 @@
                 android:id="@+id/edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/edit_text"
                 android:background="@android:color/transparent"
                 android:inputType="textMultiLine"
                 android:padding="@dimen/common_spacing" />
@@ -36,6 +38,8 @@
                     android:id="@+id/photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxHeight="500dp"
+                    android:maxWidth="500dp"
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="@string/description_photo" />
 
@@ -47,7 +51,7 @@
                     android:text="@string/remove" />
             </FrameLayout>
         </LinearLayout>
-    </ScrollView>
+    </FrameLayout>
 
     <View
         android:id="@+id/divider"
@@ -67,7 +71,8 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="50dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/pickPhoto"

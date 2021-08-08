@@ -19,7 +19,7 @@ import java.io.File
 
 
 @AndroidEntryPoint
-class NewPostFragment :Fragment() {
+class NewPostFragment : Fragment() {
     private val photoRequestCode = 1
     private val cameraRequestCode = 2
 

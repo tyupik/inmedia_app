@@ -19,4 +19,11 @@
     <string name="channel_remote_name">Server notifications</string>
     <string name="channel_remote_description">Notifications from remote server</string>
     <string name="new_message">"New message"</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_email">Login</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="edit_text">Edit text</string>
+    <string name="name">Name</string>
+    <string name="register_now">Register now</string>
 </resources>

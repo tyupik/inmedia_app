@@ -7,7 +7,7 @@
         android:title="@string/title_feed"/>
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_events"
         android:icon="@drawable/ic_baseline_event_24"
         android:title="@string/title_events"/>
 

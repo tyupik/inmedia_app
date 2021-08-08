@@ -8,35 +8,38 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import ru.netology.inmedia.R
 import ru.netology.inmedia.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
 
-  private lateinit var profileViewModel: ProfileViewModel
-private var _binding: FragmentProfileBinding? = null
-  // This property is only valid between onCreateView and
-  // onDestroyView.
-  private val binding get() = _binding!!
+    private lateinit var profileViewModel: ProfileViewModel
+    private var _binding: FragmentProfileBinding? = null
 
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    profileViewModel =
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
 
-    _binding = FragmentProfileBinding.inflate(inflater, container, false)
-    val root: View = binding.root
+        val binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-    val textView: TextView = binding.textHome
-    profileViewModel.text.observe(viewLifecycleOwner, Observer {
-      textView.text = it
-    })
-    return root
-  }
+        binding.registration.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_fragment_registration)
+        }
 
-override fun onDestroyView() {
+
+        return binding.root
+    }
+
+    override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }

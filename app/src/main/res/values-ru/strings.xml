@@ -20,4 +20,11 @@
     <string name="channel_remote_name">Уведомления с сервера</string>
     <string name="channel_remote_description">Уведомления с удалённого сервера</string>
     <string name="new_message">"Новое сообщение"</string>
+    <string name="prompt_password">Пароль</string>
+    <string name="prompt_email">Логин</string>
+    <string name="action_sign_in_short">Войти</string>
+    <string name="action_sign_in">Войти</string>
+    <string name="edit_text">Введите текст</string>
+    <string name="name">Имя</string>
+    <string name="register_now">Зарегистрироваться</string>
 </resources>
