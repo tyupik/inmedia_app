@@ -5,6 +5,7 @@ import retrofit2.Response
 import retrofit2.http.*
 import ru.netology.inmedia.dto.Post
 import ru.netology.inmedia.dto.PushToken
+import ru.netology.inmedia.dto.Token
 
 interface PostApiService {
 
@@ -33,8 +34,8 @@ interface PostApiService {
     ): Response<List<Post>>
 
     @POST("api/users/registration")
-    suspend fun registration(@Body login: String, pass: String, name: String): Response<Unit>
+    suspend fun registration(@Query ("login") login: String, @Query ("pass") pass: String, @Query ("name") name: String): Response<Token>
 
     @POST("api/users/authentication")
-    suspend fun sendAuth(@Body login: String, pass: String): Response<Unit>
+    suspend fun sendAuth(@Query ("login") login: String, @Query ("pass") pass: String): Response<Token>
 }

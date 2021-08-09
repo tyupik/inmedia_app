@@ -31,6 +31,10 @@ class ProfileFragment : Fragment() {
 
         val binding = FragmentProfileBinding.inflate(inflater, container, false)
 
+        binding.login.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_fragment_login)
+        }
+
         binding.registration.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_fragment_registration)
         }

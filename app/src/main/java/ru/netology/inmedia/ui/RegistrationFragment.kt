@@ -95,7 +95,11 @@ class RegistrationFragment : Fragment() {
         }
 
 
+        // Доработать, чтоб можно было регистрироваться с фотографией
         binding.registration.setOnClickListener {
+            val login = binding.username.text.toString()
+            val pass = binding.password.text.toString()
+            val name = binding.name.text.toString()
             appAuth.setRegistration(login, pass, name)
         }
 

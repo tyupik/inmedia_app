@@ -73,7 +73,6 @@
         android:hint="@string/name"
         android:imeActionLabel="@string/name"
         android:imeOptions="actionDone"
-        android:inputType="textPassword"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

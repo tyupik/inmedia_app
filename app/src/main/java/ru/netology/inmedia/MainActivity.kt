@@ -111,8 +111,8 @@ class MainActivity : AppCompatActivity() {
             R.id.signin -> {
 
                 //Хардкодинг
-                auth.setAuth(1, "token")
-                auth.setAuthTyupik("tyupik", "tyupik", "token")
+//                auth.setAuth(1, "token")
+//                auth.setAuthTyupik("tyupik", "tyupik", "token")
                 Toast.makeText(this, "АВТОРИЗАЦИЯ", Toast.LENGTH_SHORT).show()
                 true
             }
