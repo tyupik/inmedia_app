@@ -26,4 +26,6 @@
     <string name="edit_text">Edit text</string>
     <string name="name">Name</string>
     <string name="register_now">Register now</string>
+    <string name="error_empty_content">Content can\'t be empty</string>
+    <string name="something_went_wrong">Something went wrong. Try again</string>
 </resources>

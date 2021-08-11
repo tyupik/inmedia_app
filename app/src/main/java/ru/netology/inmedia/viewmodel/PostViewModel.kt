@@ -9,14 +9,14 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.google.firebase.installations.FirebaseInstallations
+import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.netology.inmedia.SingleLiveEvent
 import ru.netology.inmedia.auth.AppAuth
+import ru.netology.inmedia.dao.PostDao
 import ru.netology.inmedia.dto.Attachment
 import ru.netology.inmedia.dto.Coordinates
 import ru.netology.inmedia.dto.Post
@@ -46,6 +46,8 @@ class PostViewModel @Inject constructor(
     auth: AppAuth
 ) : ViewModel() {
 
+
+
     private val cached = postRepository.data.cachedIn(viewModelScope)
 
     val data: Flow<PagingData<FeedModel>> = auth.authStateFlow
@@ -70,7 +72,7 @@ class PostViewModel @Inject constructor(
     val photo: LiveData<PhotoModel>
         get() = _photo
 
-    private var newPostsCollection: List<Post>? = null
+//    private var newPostsCollection: List<Post>? = null
 
     init {
         loadPosts()

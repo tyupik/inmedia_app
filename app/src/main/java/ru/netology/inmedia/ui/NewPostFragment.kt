@@ -5,14 +5,17 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.netology.inmedia.R
 import ru.netology.inmedia.databinding.FragmentNewPostBinding
+import ru.netology.inmedia.model.FeedModelState
 import ru.netology.inmedia.utils.AndroidUtils.hideKeyboard
 import ru.netology.inmedia.viewmodel.PostViewModel
 import java.io.File
@@ -39,13 +42,23 @@ class NewPostFragment : Fragment() {
         ownerProducer = ::requireParentFragment
     )
 
+    @ExperimentalCoroutinesApi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.save -> {
+                if (fragmentBinding?.edit?.text?.isBlank() == true) {
+                    Toast.makeText(requireContext(), R.string.error_empty_content, Toast.LENGTH_LONG).show()
+                    return false
+                }
                 fragmentBinding?.let {
                     viewModel.changeContent(it.edit.text.toString())
                     viewModel.save()
                     requireView().hideKeyboard()
+                    if (viewModel.dataState.value == FeedModelState()) {
+                        findNavController().navigateUp()
+                    } else {
+                        Toast.makeText(requireContext(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
+                    }
                 }
                 true
             }
