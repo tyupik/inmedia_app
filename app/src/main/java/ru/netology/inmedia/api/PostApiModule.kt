@@ -14,6 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import ru.netology.inmedia.BuildConfig
 import ru.netology.inmedia.auth.AppAuth
+import ru.netology.inmedia.viewmodel.AuthViewModel
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -73,4 +74,11 @@ class PostApiModule {
         @ApplicationContext
         context: Context,
     ): AppAuth = AppAuth(context)
+
+
+    @Singleton
+    @Provides
+    fun provideAuthViewModel(
+        appAuth: AppAuth
+    ) : AuthViewModel = AuthViewModel(appAuth)
 }

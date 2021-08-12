@@ -1,8 +1,10 @@
 package ru.netology.inmedia.api
 
 
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
+import ru.netology.inmedia.dto.Media
 import ru.netology.inmedia.dto.Post
 import ru.netology.inmedia.dto.PushToken
 import ru.netology.inmedia.dto.Token
@@ -38,4 +40,8 @@ interface PostApiService {
 
     @POST("api/users/authentication")
     suspend fun sendAuth(@Query ("login") login: String, @Query ("pass") pass: String): Response<Token>
+
+    @Multipart
+    @POST("api/media")
+    suspend fun upload(@Part media: MultipartBody.Part): Response<Media>
 }

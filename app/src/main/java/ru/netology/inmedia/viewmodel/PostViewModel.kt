@@ -1,6 +1,7 @@
 package ru.netology.inmedia.viewmodel
 
 import android.net.Uri
+import androidx.core.net.toFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,7 @@ import ru.netology.inmedia.auth.AppAuth
 import ru.netology.inmedia.dao.PostDao
 import ru.netology.inmedia.dto.Attachment
 import ru.netology.inmedia.dto.Coordinates
+import ru.netology.inmedia.dto.MediaUpload
 import ru.netology.inmedia.dto.Post
 import ru.netology.inmedia.model.FeedModel
 import ru.netology.inmedia.model.FeedModelState

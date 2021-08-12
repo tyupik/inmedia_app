@@ -7,6 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment" >
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/unauthenticated"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <Button
         android:id="@+id/login"
         android:layout_width="wrap_content"
@@ -33,6 +37,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login" />
 
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import ru.netology.inmedia.auth.AppAuth
 import ru.netology.inmedia.auth.AuthState
 import javax.inject.Inject
+import javax.inject.Singleton
 
 @HiltViewModel
 class   AuthViewModel @Inject constructor(
@@ -19,4 +20,6 @@ class   AuthViewModel @Inject constructor(
 
     val authenticated: Boolean
         get() = auth.authStateFlow.value.id != 0L
+
+
 }

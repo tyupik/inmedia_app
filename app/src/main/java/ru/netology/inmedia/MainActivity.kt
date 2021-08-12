@@ -24,7 +24,11 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val viewModel: AuthViewModel by viewModels()
+//    private val viewModel: AuthViewModel by viewModels()
+
+    @Inject
+    lateinit var viewModel: AuthViewModel
+
     private val postViewModel: PostViewModel by viewModels()
 
     @Inject
