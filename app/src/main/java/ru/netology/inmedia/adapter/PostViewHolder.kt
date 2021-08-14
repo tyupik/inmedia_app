@@ -61,6 +61,18 @@ class PostViewHolder(
                 .timeout(10_000)
                 .transform(MultiTransformation(FitCenter(), CircleCrop()))
                 .into(binding.avatarIv)
+
+
+            if(!post.attachment?.url.isNullOrEmpty()) {
+                binding.attachment.visibility = View.VISIBLE
+                Glide.with(binding.attachment)
+                    .load("$url/api/media/${post.attachment?.url}")
+                    .error(R.drawable.ic_error_100dp)
+                    .timeout(10_000)
+                    .into(binding.attachment)
+            } else {
+                binding.attachment.visibility = View.GONE
+            }
         }
     }
 }

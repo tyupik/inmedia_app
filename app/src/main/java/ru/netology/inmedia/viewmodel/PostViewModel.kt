@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import androidx.work.*
 import com.google.firebase.installations.FirebaseInstallations
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,6 +28,8 @@ import ru.netology.inmedia.model.FeedModelState
 import ru.netology.inmedia.model.PhotoModel
 import ru.netology.inmedia.model.PostModel
 import ru.netology.inmedia.repository.PostRepository
+import ru.netology.inmedia.work.RemovePostWorker
+import ru.netology.inmedia.work.SavePostWorker
 import java.io.File
 import java.lang.Exception
 import javax.inject.Inject
@@ -45,6 +48,7 @@ private val noPhoto = PhotoModel()
 @ExperimentalCoroutinesApi
 class PostViewModel @Inject constructor(
     private val postRepository: PostRepository,
+    private val workManager: WorkManager,
     auth: AppAuth
 ) : ViewModel() {
 
@@ -74,7 +78,6 @@ class PostViewModel @Inject constructor(
     val photo: LiveData<PhotoModel>
         get() = _photo
 
-//    private var newPostsCollection: List<Post>? = null
 
     init {
         loadPosts()
@@ -120,11 +123,16 @@ class PostViewModel @Inject constructor(
     }
 
     fun removeById(id: Long) = viewModelScope.launch {
-        try {
-            postRepository.removeById(id)
-            _dataState.value = FeedModelState()
-        } catch (e: Exception) {
-            _dataState.value = FeedModelState(error = true)
+        viewModelScope.launch {
+            val data = workDataOf(RemovePostWorker.postKey to id)
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+            val request = OneTimeWorkRequestBuilder<RemovePostWorker>()
+                .setInputData(data)
+                .setConstraints(constraints)
+                .build()
+            workManager.enqueue(request)
         }
     }
 
@@ -136,18 +144,36 @@ class PostViewModel @Inject constructor(
         edited.value = edited.value?.copy(content = text)
     }
 
+
     fun save() = viewModelScope.launch {
         edited.value?.let { post ->
-           viewModelScope.launch {
-               try {
-                   postRepository.save(post)
-                   _dataState.value = FeedModelState()
-               } catch (e: Exception) {
-                   _dataState.value = FeedModelState(error = true)
-               }
-           }
+            _postCreated.value = Unit
+            viewModelScope.launch {
+                try {
+                    val id = postRepository.saveWork(
+                        post, _photo.value?.uri?.let { MediaUpload(it.toFile()) }
+                    )
+                    val data = workDataOf(SavePostWorker.postKey to id)
+                    val constraints = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+                    val request = OneTimeWorkRequestBuilder<SavePostWorker>()
+                        .setInputData(data)
+                        .setConstraints(constraints)
+                        .build()
+                    workManager.enqueue(request)
+
+                    _dataState.value = FeedModelState()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    _dataState.value = FeedModelState(error = true)
+                }
+            }
         }
+        edited.value = defaultPost
+        _photo.value = noPhoto
     }
+
 
     fun edit(post: Post) {
         edited.value = post

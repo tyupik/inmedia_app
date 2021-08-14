@@ -47,6 +47,7 @@ android {
 dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.room:room-runtime:2.3.0'
+    implementation 'androidx.hilt:hilt-work:1.0.0'
     annotationProcessor 'androidx.room:room-compiler:2.3.0'
     def coordinatorlayout_version = "1.1.0"
     def lifecycle_version = "2.3.1"
@@ -62,6 +63,7 @@ dependencies {
     def okhttploggin_version = "4.9.1"
     def coroutines_version = "1.4.3"
     def imagepicker_version = "1.7.1"
+    def workmanager_version = "2.5.0"
 
     implementation "androidx.coordinatorlayout:coordinatorlayout:$coordinatorlayout_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -85,6 +87,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutines_version"
     implementation "com.github.dhaval2404:imagepicker:$imagepicker_version"
+    implementation "androidx.work:work-runtime-ktx:$workmanager_version"
 
 
 

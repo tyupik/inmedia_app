@@ -54,9 +54,10 @@ class NewPostFragment : Fragment() {
                     viewModel.changeContent(it.edit.text.toString())
                     viewModel.save()
                     requireView().hideKeyboard()
-                    if (viewModel.dataState.value == FeedModelState()) {
+                    if (viewModel.dataState.value == FeedModelState(loading = true)) {
                         findNavController().navigateUp()
                     } else {
+                        print(viewModel.dataState.value)
                         Toast.makeText(requireContext(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
                     }
                 }
