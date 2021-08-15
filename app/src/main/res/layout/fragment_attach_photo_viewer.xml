@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Widget.AppTheme.ButtonBar.Fullscreen"
-    tools:context="ui.AttachPhotoViewerFragment">
+    tools:context="ui.AttachViewerFragment">
 
 
     <ImageView

@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -43,9 +45,12 @@ class FeedFragment : Fragment() {
             false
         )
 
+
+
         val adapter = PostAdapter(
             object : PostAdapterClickListener {
                 override fun onEditClicked(post: Post) {
+                    hideNavBar()
                     findNavController().navigate(
                         R.id.action_feedFragment_to_new_post_fragment,
                         Bundle().apply {
@@ -70,12 +75,14 @@ class FeedFragment : Fragment() {
                 override fun onAttachmentClicked(post: Post) {
                     // Тут надо сделать проверку, какой тип вложения
                     // Пока что возьмем по дефолтку фото
+                    hideNavBar()
                     findNavController().navigate(
                         R.id.action_feedFragment_to_attach_photo_viewer,
                         Bundle().apply {
                             textArg = post.attachment?.url
                         }
                     )
+//                    activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
                 }
             },
             "${BuildConfig.BASE_URL}"
@@ -117,8 +124,18 @@ class FeedFragment : Fragment() {
         }
 
         binding.fab.setOnClickListener {
+            hideNavBar()
             findNavController().navigate(R.id.action_feedFragment_to_new_post_fragment)
         }
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
+    }
+
+    private fun hideNavBar() {
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.GONE
     }
 }
