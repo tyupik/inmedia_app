@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.inmedia.R
 import ru.netology.inmedia.auth.AppAuth
 import ru.netology.inmedia.databinding.FragmentRegistrationBinding
+import ru.netology.inmedia.model.PhotoModel
 import ru.netology.inmedia.ui.profile.ProfileViewModel
 import ru.netology.inmedia.viewmodel.PostViewModel
 import java.io.File
@@ -113,7 +114,7 @@ class RegistrationFragment : Fragment() {
         }
 
         binding.removeAvatar.setOnClickListener {
-            profileViewModel.changePhoto(null, null)
+            profileViewModel.changePhoto(null)
         }
 
         return binding.root
@@ -129,14 +130,14 @@ class RegistrationFragment : Fragment() {
         }
         if (resultCode == Activity.RESULT_OK && requestCode == photoRequestCode) {
             val uri: Uri? = data?.data
-            val file: File? = ImagePicker.getFile(data)
-            profileViewModel.changePhoto(uri, file)
+//            val file: File? = ImagePicker.getFile(data)
+            profileViewModel.changePhoto(uri)
             return
         }
         if (resultCode == Activity.RESULT_OK && requestCode == cameraRequestCode) {
             val uri: Uri? = data?.data
-            val file: File? = ImagePicker.getFile(data)
-            profileViewModel.changePhoto(uri, file)
+//            val file: File? = ImagePicker.getFile(data)
+            profileViewModel.changePhoto(uri)
             return
         }
     }

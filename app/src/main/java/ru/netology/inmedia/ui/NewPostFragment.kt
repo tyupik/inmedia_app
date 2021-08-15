@@ -16,9 +16,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.netology.inmedia.R
 import ru.netology.inmedia.databinding.FragmentNewPostBinding
 import ru.netology.inmedia.model.FeedModelState
+import ru.netology.inmedia.model.PhotoModel
 import ru.netology.inmedia.utils.AndroidUtils.hideKeyboard
 import ru.netology.inmedia.viewmodel.PostViewModel
 import java.io.File
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -37,12 +39,12 @@ class NewPostFragment : Fragment() {
     }
 
     private var fragmentBinding: FragmentNewPostBinding? = null
+    private var photoValue = PhotoModel(null)
 
-    private val viewModel: PostViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
 
-    @ExperimentalCoroutinesApi
+
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.save -> {
@@ -52,7 +54,7 @@ class NewPostFragment : Fragment() {
                 }
                 fragmentBinding?.let {
                     viewModel.changeContent(it.edit.text.toString())
-                    viewModel.save()
+                    viewModel.save(photoValue)
                     requireView().hideKeyboard()
                     if (viewModel.dataState.value == FeedModelState(loading = true)) {
                         findNavController().navigateUp()
@@ -73,6 +75,10 @@ class NewPostFragment : Fragment() {
             set(value) = putString(TEXT_KEY, value)
             get() = getString(TEXT_KEY)
     }
+
+    private val viewModel: PostViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -112,7 +118,7 @@ class NewPostFragment : Fragment() {
         }
 
         binding.removePhoto.setOnClickListener {
-            viewModel.changePhoto(null, null)
+            viewModel.changePhoto(null)
         }
         viewModel.photo.observe(viewLifecycleOwner) {
             if (it.uri == null) {
@@ -141,14 +147,16 @@ class NewPostFragment : Fragment() {
         }
         if (resultCode == Activity.RESULT_OK && requestCode == photoRequestCode) {
             val uri: Uri? = data?.data
-            val file: File? = ImagePicker.getFile(data)
-            viewModel.changePhoto(uri, file)
+//            val file: File? = ImagePicker.getFile(data)
+            viewModel.changePhoto(uri)
+            photoValue = PhotoModel(uri)
             return
         }
         if (resultCode == Activity.RESULT_OK && requestCode == cameraRequestCode) {
             val uri: Uri? = data?.data
-            val file: File? = ImagePicker.getFile(data)
-            viewModel.changePhoto(uri, file)
+//            val file: File? = ImagePicker.getFile(data)
+            viewModel.changePhoto(uri)
+            photoValue = PhotoModel(uri)
             return
         }
     }

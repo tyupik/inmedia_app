@@ -37,7 +37,7 @@ class AttachViewerFragment : Fragment() {
 
 
         Glide.with(binding.attach)
-            .load("$BASE_URL/media/${arguments?.textArg}")
+            .load("${arguments?.textArg}")
             .error(R.drawable.ic_error_100dp)
             .timeout(10_000)
             .into(binding.attach)

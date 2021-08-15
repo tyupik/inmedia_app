@@ -146,7 +146,7 @@ class PostRepositoryImpl @Inject constructor(
         try {
             val media = upload(upload)
             val postWithAttachment =
-                post.copy(attachment = Attachment(media.id, AttachmentType.IMAGE))
+                post.copy(attachment = Attachment(media.url, AttachmentType.IMAGE))
             save(postWithAttachment)
         } catch (e: AppError) {
             throw e
@@ -185,7 +185,6 @@ class PostRepositoryImpl @Inject constructor(
                 likedByMe = entity.likedByMe,
 
             )
-            print(entity.uri)
             if (entity.uri != null) {
                 val upload = MediaUpload(Uri.parse(entity.uri).toFile())
                 saveWithAttachment(post, upload)

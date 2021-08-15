@@ -66,7 +66,9 @@ class PostViewHolder(
             if(!post.attachment?.url.isNullOrEmpty()) {
                 binding.attachment.visibility = View.VISIBLE
                 Glide.with(binding.attachment)
-                    .load("$url/api/media/${post.attachment?.url}")
+                    .load("${post.attachment?.url}")
+                    .override(1000,500)
+                    .centerCrop()
                     .error(R.drawable.ic_error_100dp)
                     .timeout(10_000)
                     .into(binding.attachment)

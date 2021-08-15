@@ -145,13 +145,15 @@ class PostViewModel @Inject constructor(
     }
 
 
-    fun save() = viewModelScope.launch {
+    fun save(photoValue: PhotoModel) = viewModelScope.launch {
         edited.value?.let { post ->
             _postCreated.value = Unit
             viewModelScope.launch {
                 try {
+                    print ("VALUE_CONTENT = " + edited.value?.content)
+                    print ("PHOTO_VALUE_URI = " + _photo.value?.uri)
                     val id = postRepository.saveWork(
-                        post, _photo.value?.uri?.let { MediaUpload(it.toFile()) }
+                        post, photoValue.uri?.let { MediaUpload(it.toFile()) }
                     )
                     val data = workDataOf(SavePostWorker.postKey to id)
                     val constraints = Constraints.Builder()
@@ -179,7 +181,7 @@ class PostViewModel @Inject constructor(
         edited.value = post
     }
 
-    fun changePhoto(uri: Uri?, file: File?) {
-        _photo.value = PhotoModel(uri, file)
+    fun changePhoto(uri: Uri?) {
+        _photo.value = PhotoModel(uri)
     }
 }
