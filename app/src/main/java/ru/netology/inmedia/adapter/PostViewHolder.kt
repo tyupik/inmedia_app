@@ -1,5 +1,6 @@
 package ru.netology.inmedia.adapter
 
+import android.app.Application
 import android.view.View
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
@@ -10,8 +11,9 @@ import com.bumptech.glide.load.resource.bitmap.FitCenter
 import ru.netology.inmedia.R
 import ru.netology.inmedia.databinding.PostCardItemBinding
 import ru.netology.inmedia.dto.Post
-import java.text.SimpleDateFormat
-import java.util.*
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 class PostViewHolder(
     private val binding: PostCardItemBinding,
@@ -23,7 +25,7 @@ class PostViewHolder(
         binding.apply {
             avatarIv.setImageResource((R.drawable.avatar))
             authorTv.text = post.author
-            publishedTv.text = post.published.toString()
+            publishedTv.text = formatData(post.published)
             textTv.text = post.content
             like.isChecked = post.likedByMe
             menu.visibility = if(post.ownedByMe) View.VISIBLE else View.INVISIBLE
@@ -78,6 +80,12 @@ class PostViewHolder(
                 binding.attachment.visibility = View.GONE
             }
         }
+    }
+
+    private fun formatData(instant: String) : String {
+        return DateTimeFormatter.ofPattern("d.MM.yyyy 'в' HH:mm ")
+            .withZone(ZoneId.of("Europe/Moscow"))
+            .format(Instant.parse(instant))
     }
 
 }

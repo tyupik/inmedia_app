@@ -29,5 +29,6 @@
     <string name="register_now">Зарегистрироваться</string>
     <string name="error_empty_content">Контент не может быть пустым</string>
     <string name="something_went_wrong">Что-то пошло не так. Попробуйте еще раз.</string>
+    <string name="preposition_of_time">в</string>
 
 </resources>

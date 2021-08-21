@@ -183,12 +183,11 @@ class PostRepositoryImpl @Inject constructor(
                 author = entity.author,
                 authorAvatar = entity.authorAvatar,
                 content = entity.content,
-                published = entity.published,
+                published = Instant.now().toString(),
                 link = entity.link,
                 likedByMe = entity.likedByMe,
 
             )
-            println (Instant.now().toString())
             if (entity.uri != null) {
                 val upload = MediaUpload(Uri.parse(entity.uri).toFile())
                 saveWithAttachment(post, upload)
