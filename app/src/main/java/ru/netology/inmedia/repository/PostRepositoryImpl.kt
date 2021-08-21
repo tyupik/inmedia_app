@@ -29,6 +29,7 @@ import ru.netology.inmedia.error.AppError
 import ru.netology.inmedia.error.NetworkError
 import ru.netology.inmedia.error.UnknownError
 import java.io.IOException
+import java.time.Instant
 import javax.inject.Inject
 
 class PostRepositoryImpl @Inject constructor(
@@ -125,9 +126,11 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun upload(upload: MediaUpload): Media {
         try {
+            println (upload.file.name)
             val media = MultipartBody.Part.createFormData(
                 "file", upload.file.name, upload.file.asRequestBody()
             )
+            println(media.body)
 
             val response = postApiService.upload(media)
             if (!response.isSuccessful) {
@@ -180,15 +183,17 @@ class PostRepositoryImpl @Inject constructor(
                 author = entity.author,
                 authorAvatar = entity.authorAvatar,
                 content = entity.content,
-                published = entity.published,
+                published = Instant.ofEpochMilli(entity.published),
                 link = entity.link,
                 likedByMe = entity.likedByMe,
 
             )
+            println (Instant.now().toString())
             if (entity.uri != null) {
                 val upload = MediaUpload(Uri.parse(entity.uri).toFile())
                 saveWithAttachment(post, upload)
             } else {
+                println (post)
                 save(post)
             }
         } catch (e: Exception) {

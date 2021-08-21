@@ -32,6 +32,7 @@ import ru.netology.inmedia.work.RemovePostWorker
 import ru.netology.inmedia.work.SavePostWorker
 import java.io.File
 import java.lang.Exception
+import java.time.Instant
 import javax.inject.Inject
 
 private val defaultPost = Post(
@@ -40,7 +41,7 @@ private val defaultPost = Post(
     author = "",
     authorAvatar = "1",
     content = "",
-    published = 0L,
+    published = Instant.now(),
 )
 
 private val noPhoto = PhotoModel()
@@ -150,8 +151,6 @@ class PostViewModel @Inject constructor(
             _postCreated.value = Unit
             viewModelScope.launch {
                 try {
-                    print ("VALUE_CONTENT = " + edited.value?.content)
-                    print ("PHOTO_VALUE_URI = " + _photo.value?.uri)
                     val id = postRepository.saveWork(
                         post, photoValue.uri?.let { MediaUpload(it.toFile()) }
                     )

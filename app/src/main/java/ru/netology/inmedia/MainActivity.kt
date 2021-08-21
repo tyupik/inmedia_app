@@ -117,13 +117,13 @@ class MainActivity : AppCompatActivity() {
                 //Хардкодинг
 //                auth.setAuth(1, "token")
 //                auth.setAuthTyupik("tyupik", "tyupik", "token")
-                Toast.makeText(this, "АВТОРИЗАЦИЯ", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "АВТОРИЗАЦИЯ", Toast.LENGTH_SHORT).show()
                 true
             }
             R.id.signup -> {
 //                auth.setAuth(5, "x-token")
-                auth.setRegistration("tyupik", "tyupik","tyupik")
-                Toast.makeText(this, "Регистрация", Toast.LENGTH_SHORT).show()
+//                auth.setRegistration("tyupik", "tyupik","tyupik")
+//                Toast.makeText(this, "Регистрация", Toast.LENGTH_SHORT).show()
                 true
             }
             R.id.signout -> {

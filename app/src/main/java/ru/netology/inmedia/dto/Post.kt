@@ -1,6 +1,7 @@
 package ru.netology.inmedia.dto
 
 import ru.netology.inmedia.enumiration.AttachmentType
+import java.time.Instant
 
 data class Post(
     val id: Long,
@@ -8,7 +9,7 @@ data class Post(
     val author: String,
     val authorAvatar: String?,
     val content: String,
-    val published: Long,
+    val published: Instant,
     val coords: Coordinates? = null,
     /**
      * Ссылка на связанный ресурс, например:

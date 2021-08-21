@@ -16,29 +16,30 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import okhttp3.Response
+import okhttp3.MultipartBody
 import ru.netology.inmedia.api.PostApiService
 import ru.netology.inmedia.api.token
+import ru.netology.inmedia.dto.MediaUpload
 import ru.netology.inmedia.dto.PushToken
-import ru.netology.inmedia.dto.Token
-import ru.netology.inmedia.entity.toEntity
 import ru.netology.inmedia.error.ApiError
 import ru.netology.inmedia.error.NetworkError
-import ru.netology.inmedia.error.UnknownError
+import ru.netology.inmedia.repository.PostRepository
 import java.io.IOException
-import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AppAuth @Inject constructor(
     @ApplicationContext
-    private val context: Context
+    private val context: Context,
+    val postRepository: PostRepository,
+    val postApiService: PostApiService
 ) {
     private val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
     private val idKey = "id"
 
     private val _authStateFlow: MutableStateFlow<AuthState>
+
 
     init {
         val id = prefs.getLong(idKey, 0)
@@ -62,7 +63,7 @@ class AppAuth @Inject constructor(
     }
 
     fun sendPushToken(token: String? = null) {
-        print (token)
+        print(token)
         CoroutineScope(Dispatchers.Default).launch {
             try {
                 val pushToken = PushToken(token ?: Firebase.messaging.token.await())
@@ -101,17 +102,29 @@ class AppAuth @Inject constructor(
             try {
                 val response = getPostApiService(context).sendAuth(login, pass)
                 if (!response.isSuccessful) {
-                    CoroutineScope(Dispatchers.Main).launch { Toast.makeText(context, "Что-то пошло не так", Toast.LENGTH_SHORT).show() }
+                    CoroutineScope(Dispatchers.Main).launch {
+                        Toast.makeText(
+                            context,
+                            "Что-то пошло не так",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                     throw ApiError(response.code(), response.message())
                 }
                 val body = response.body() ?: throw ApiError(response.code(), response.message())
                 setAuth(body.id, body.token)
-                println (body.token)
-                CoroutineScope(Dispatchers.Main).launch { Toast.makeText(context, "Авторизация прошла успешно", Toast.LENGTH_SHORT).show() }
+                println(body.token)
+                CoroutineScope(Dispatchers.Main).launch {
+                    Toast.makeText(
+                        context,
+                        "Авторизация прошла успешно",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             } catch (e: IOException) {
                 throw NetworkError
             } catch (e: Exception) {
-                print (e.message)
+                print(e.message)
 //                throw UnknownError
             }
         }
@@ -119,26 +132,40 @@ class AppAuth @Inject constructor(
 
 
     @Synchronized
-    fun setRegistration(login: String, pass: String, name: String) {
+    fun setRegistration(login: String, pass: String, name: String, upload: MultipartBody.Part?) {
         CoroutineScope(Dispatchers.Default).launch {
             try {
-                val response = getPostApiService(context).registration(login, pass, name)
+                val response = getPostApiService(context).registration(login, pass, name, upload)
                 if (!response.isSuccessful) {
-                    CoroutineScope(Dispatchers.Main).launch { Toast.makeText(context, "Что-то пошло не так", Toast.LENGTH_SHORT).show() }
+                    CoroutineScope(Dispatchers.Main).launch {
+                        Toast.makeText(
+                            context,
+                            "Что-то пошло не так",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                     throw ApiError(response.code(), response.message())
                 }
                 val body = response.body() ?: throw ApiError(response.code(), response.message())
                 setAuth(body.id, body.token)
-                println (body.token)
-                CoroutineScope(Dispatchers.Main).launch { Toast.makeText(context, "Регистрация прошла успешно", Toast.LENGTH_SHORT).show() }
+                println(body.token)
+                CoroutineScope(Dispatchers.Main).launch {
+                    Toast.makeText(
+                        context,
+                        "Регистрация прошла успешно",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             } catch (e: IOException) {
                 throw NetworkError
             } catch (e: Exception) {
-                print (e.message)
+                print(e.message)
 //                throw UnknownError
             }
         }
     }
+
 
 
     @Synchronized

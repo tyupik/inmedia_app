@@ -36,7 +36,7 @@ interface PostApiService {
     ): Response<List<Post>>
 
     @POST("api/users/registration")
-    suspend fun registration(@Query ("login") login: String, @Query ("pass") pass: String, @Query ("name") name: String): Response<Token>
+    suspend fun registration(@Query ("login") login: String, @Query ("pass") pass: String, @Query ("name") name: String, @Query ("file") media: MultipartBody.Part?): Response<Token>
 
     @POST("api/users/authentication")
     suspend fun sendAuth(@Query ("login") login: String, @Query ("pass") pass: String): Response<Token>

@@ -1,6 +1,5 @@
 package ru.netology.inmedia.ui
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -23,15 +22,20 @@ import ru.netology.inmedia.auth.AppAuth
 import ru.netology.inmedia.databinding.FragmentRegistrationBinding
 import ru.netology.inmedia.model.PhotoModel
 import ru.netology.inmedia.ui.profile.ProfileViewModel
-import ru.netology.inmedia.viewmodel.PostViewModel
-import java.io.File
+import ru.netology.inmedia.viewmodel.AuthViewModel
 import javax.inject.Inject
+
+
+private var photoValue = PhotoModel(null)
 
 @AndroidEntryPoint
 class RegistrationFragment : Fragment() {
 
     @Inject
     lateinit var appAuth: AppAuth
+
+    @Inject
+    lateinit var authViewModel: AuthViewModel
 
     private val profileViewModel: ProfileViewModel by viewModels(
         ownerProducer = ::requireParentFragment
@@ -96,12 +100,15 @@ class RegistrationFragment : Fragment() {
         }
 
 
-        // Доработать, чтоб можно было регистрироваться с фотографией
         binding.registration.setOnClickListener {
             val login = binding.username.text.toString()
             val pass = binding.password.text.toString()
             val name = binding.name.text.toString()
-            appAuth.setRegistration(login, pass, name)
+            if (photoValue != PhotoModel(null)) {
+                authViewModel.getFileForAvatar(login, pass, name, photoValue)
+            } else {
+                appAuth.setRegistration(login, pass, name, null)
+            }
         }
 
         profileViewModel.photo.observe(viewLifecycleOwner) {
@@ -132,12 +139,14 @@ class RegistrationFragment : Fragment() {
             val uri: Uri? = data?.data
 //            val file: File? = ImagePicker.getFile(data)
             profileViewModel.changePhoto(uri)
+            photoValue = PhotoModel(uri)
             return
         }
         if (resultCode == Activity.RESULT_OK && requestCode == cameraRequestCode) {
             val uri: Uri? = data?.data
 //            val file: File? = ImagePicker.getFile(data)
             profileViewModel.changePhoto(uri)
+            photoValue = PhotoModel(uri)
             return
         }
     }

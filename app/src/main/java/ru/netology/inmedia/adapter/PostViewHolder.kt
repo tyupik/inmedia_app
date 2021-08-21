@@ -10,6 +10,8 @@ import com.bumptech.glide.load.resource.bitmap.FitCenter
 import ru.netology.inmedia.R
 import ru.netology.inmedia.databinding.PostCardItemBinding
 import ru.netology.inmedia.dto.Post
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PostViewHolder(
     private val binding: PostCardItemBinding,
@@ -55,7 +57,7 @@ class PostViewHolder(
             }
 
             Glide.with(binding.avatarIv)
-                .load("$url/avatars/${post.authorAvatar}")
+                .load("${post.authorAvatar}")
                 .placeholder(R.drawable.ic_loading_100dp)
                 .error(R.drawable.ic_error_100dp)
                 .timeout(10_000)
@@ -77,4 +79,5 @@ class PostViewHolder(
             }
         }
     }
+
 }

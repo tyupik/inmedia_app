@@ -4,6 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.inmedia.dto.Post
+import java.time.Instant
 
 @Entity
 data class PostWorkEntity(
@@ -32,7 +33,7 @@ data class PostWorkEntity(
             author = author,
             authorAvatar = authorAvatar,
             content = content,
-            published = published,
+            published = Instant.ofEpochMilli(published),
             coords = coords?.toDto(),
             link = link,
 //            mentionIds = mentionIds,
@@ -50,7 +51,7 @@ data class PostWorkEntity(
                 dto.author,
                 dto.authorAvatar,
                 dto.content,
-                dto.published,
+                dto.published.toEpochMilli(),
                 CoordinatesEmbeddable.fromDto(dto.coords),
                 dto.link,
 //                dto.mentionIds,

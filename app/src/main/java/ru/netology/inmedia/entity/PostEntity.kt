@@ -1,5 +1,7 @@
 package ru.netology.inmedia.entity
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -7,6 +9,7 @@ import ru.netology.inmedia.dto.Attachment
 import ru.netology.inmedia.dto.Coordinates
 import ru.netology.inmedia.dto.Post
 import ru.netology.inmedia.enumiration.AttachmentType
+import java.time.Instant
 
 @Entity
 data class PostEntity(
@@ -34,7 +37,7 @@ data class PostEntity(
             author = author,
             authorAvatar = authorAvatar,
             content = content,
-            published = published,
+            published = Instant.ofEpochMilli(published),
             coords = coords?.toDto(),
             link = link,
 //            mentionIds = mentionIds,
@@ -52,7 +55,7 @@ data class PostEntity(
                 dto.author,
                 dto.authorAvatar,
                 dto.content,
-                dto.published,
+                dto.published.toEpochMilli(),
                 CoordinatesEmbeddable.fromDto(dto.coords),
                 dto.link,
 //                dto.mentionIds,
@@ -94,3 +97,16 @@ data class CoordinatesEmbeddable(
         }
     }
 }
+
+//data class PublishedEmbeddable(
+//    var published: Long
+//) {
+//    fun toDto(): Instant =
+//        Instant.ofEpochMilli(published)
+//
+//    companion object {
+//        fun fromDto(dto: Instant) = PublishedEmbeddable(dto.toEpochMilli())
+//    }
+//
+//
+//}

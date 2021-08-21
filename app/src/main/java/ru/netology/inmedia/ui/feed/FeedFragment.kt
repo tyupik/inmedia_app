@@ -23,10 +23,14 @@ import ru.netology.inmedia.adapter.PostAdapterClickListener
 import ru.netology.inmedia.databinding.FragmentFeedBinding
 import ru.netology.inmedia.dto.Post
 import ru.netology.inmedia.ui.NewPostFragment.Companion.textArg
+import ru.netology.inmedia.viewmodel.AuthViewModel
 import ru.netology.inmedia.viewmodel.PostViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FeedFragment : Fragment() {
+    @Inject
+    lateinit var viewModel: AuthViewModel
 
     val postViewModel: PostViewModel by viewModels(
         ownerProducer = ::requireParentFragment
@@ -101,7 +105,7 @@ class FeedFragment : Fragment() {
             binding.swipeRefresh.isRefreshing = state.refreshing
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry_loading) { postViewModel.loadPosts() }
+                    .setAction(R.string.retry_loading) { postViewModel.refreshPosts() }
                     .show()
             }
         })
@@ -121,6 +125,14 @@ class FeedFragment : Fragment() {
 
         binding.retryButton.setOnClickListener {
             postViewModel.refreshPosts()
+        }
+
+        viewModel.data.observe(viewLifecycleOwner) {
+            if(viewModel.authenticated) {
+                binding.fab.visibility = View.VISIBLE
+            } else {
+                binding.fab.visibility = View.INVISIBLE
+            }
         }
 
         binding.fab.setOnClickListener {
