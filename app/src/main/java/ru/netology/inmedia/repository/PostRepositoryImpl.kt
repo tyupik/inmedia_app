@@ -183,7 +183,7 @@ class PostRepositoryImpl @Inject constructor(
                 author = entity.author,
                 authorAvatar = entity.authorAvatar,
                 content = entity.content,
-                published = Instant.ofEpochMilli(entity.published),
+                published = entity.published,
                 link = entity.link,
                 likedByMe = entity.likedByMe,
 

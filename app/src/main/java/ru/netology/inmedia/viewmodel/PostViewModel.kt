@@ -41,7 +41,7 @@ private val defaultPost = Post(
     author = "",
     authorAvatar = "1",
     content = "",
-    published = Instant.now(),
+    published = "",
 )
 
 private val noPhoto = PhotoModel()

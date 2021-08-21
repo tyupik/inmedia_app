@@ -9,7 +9,7 @@ data class Post(
     val author: String,
     val authorAvatar: String?,
     val content: String,
-    val published: Instant,
+    val published: String,
     val coords: Coordinates? = null,
     /**
      * Ссылка на связанный ресурс, например:
