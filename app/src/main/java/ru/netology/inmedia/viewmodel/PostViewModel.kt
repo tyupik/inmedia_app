@@ -28,6 +28,7 @@ import ru.netology.inmedia.model.FeedModelState
 import ru.netology.inmedia.model.PhotoModel
 import ru.netology.inmedia.model.PostModel
 import ru.netology.inmedia.repository.PostRepository
+import ru.netology.inmedia.repository.ProfileRepository
 import ru.netology.inmedia.work.RemovePostWorker
 import ru.netology.inmedia.work.SavePostWorker
 import java.io.File
@@ -50,7 +51,8 @@ private val noPhoto = PhotoModel()
 class PostViewModel @Inject constructor(
     private val postRepository: PostRepository,
     private val workManager: WorkManager,
-    auth: AppAuth
+    auth: AppAuth,
+    private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
 
@@ -83,6 +85,15 @@ class PostViewModel @Inject constructor(
     init {
         loadPosts()
         FirebaseInstallations.getInstance().getToken(true)
+    }
+
+    fun loadUserProfile(id: Long) = viewModelScope.launch {
+        try {
+            _dataState.value = FeedModelState(loading = true)
+            profileRepository.getUserById(id)
+        } catch (e: Exception) {
+            _dataState.value = FeedModelState(error = true)
+        }
     }
 
     fun loadPosts() = viewModelScope.launch {

@@ -8,9 +8,13 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-interface PostRepositoryModule {
+interface RepositoryModule {
 
     @Singleton
     @Binds
     fun bindRepo(impl: PostRepositoryImpl) : PostRepository
+
+    @Singleton
+    @Binds
+    fun bindProfileRepo(impl: ProfileRepositoryImpl) : ProfileRepository
 }

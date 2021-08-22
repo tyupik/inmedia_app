@@ -29,4 +29,5 @@
     <string name="error_empty_content">Content can\'t be empty</string>
     <string name="something_went_wrong">Something went wrong. Try again</string>
     <string name="preposition_of_time">at</string>
+    <string name="sign_in">Sign In</string>
 </resources>

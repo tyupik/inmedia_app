@@ -56,6 +56,10 @@ class AppAuth @Inject constructor(
         }
     }
 
+    fun getMyId() : Long {
+        return if(prefs.getLong(idKey, 0) != 0L ) prefs.getLong(idKey, 0) else 0L
+    }
+
     @InstallIn(SingletonComponent::class)
     @EntryPoint
     interface AppAuthEntryPoint {

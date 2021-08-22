@@ -85,4 +85,8 @@ class PostApiModule {
         appAuth: AppAuth,
         postRepository: PostRepository
     ) : AuthViewModel = AuthViewModel(appAuth, postRepository)
+
+    @Singleton
+    @Provides
+    fun provideProfileApi(retrofit: Retrofit):ProfileApiService = retrofit.create()
 }

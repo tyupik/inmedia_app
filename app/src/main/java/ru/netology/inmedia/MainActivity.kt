@@ -24,7 +24,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-//    private val viewModel: AuthViewModel by viewModels()
 
     @Inject
     lateinit var viewModel: AuthViewModel
@@ -90,11 +89,21 @@ class MainActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = binding.navView
 
+        if (viewModel.authenticated) {
+            navView.menu.findItem(R.id.navigation_registration).isVisible = false
+            navView.menu.findItem(R.id.navigation_home).isVisible = true
+        } else {
+            navView.menu.findItem(R.id.navigation_registration).isVisible = true
+            navView.menu.findItem(R.id.navigation_home).isVisible = false
+        }
+
+
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_events
-            )
+                setOf(
+                    R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_events, R.id.navigation_registration
+                )
+
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -112,20 +121,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.signin -> {
-
-                //Хардкодинг
-//                auth.setAuth(1, "token")
-//                auth.setAuthTyupik("tyupik", "tyupik", "token")
-//                Toast.makeText(this, "АВТОРИЗАЦИЯ", Toast.LENGTH_SHORT).show()
-                true
-            }
-            R.id.signup -> {
-//                auth.setAuth(5, "x-token")
-//                auth.setRegistration("tyupik", "tyupik","tyupik")
-//                Toast.makeText(this, "Регистрация", Toast.LENGTH_SHORT).show()
-                true
-            }
             R.id.signout -> {
                 auth.removeAuth()
                 postViewModel.refreshPosts()
