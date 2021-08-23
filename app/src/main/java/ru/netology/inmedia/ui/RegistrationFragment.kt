@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -22,6 +23,7 @@ import ru.netology.inmedia.auth.AppAuth
 import ru.netology.inmedia.databinding.FragmentRegistrationBinding
 import ru.netology.inmedia.model.PhotoModel
 import ru.netology.inmedia.ui.profile.ProfileViewModel
+import ru.netology.inmedia.utils.AndroidUtils.hideKeyboard
 import ru.netology.inmedia.viewmodel.AuthViewModel
 import javax.inject.Inject
 
@@ -58,9 +60,9 @@ class RegistrationFragment : Fragment() {
             false
         )
 
-        val login = binding.username.toString()
-        val pass = binding.password.toString()
-        val name = binding.name.toString()
+//        val login = binding.username.toString()
+//        val pass = binding.password.toString()
+//        val name = binding.name.toString()
         fragmentBinding = binding
 
 
@@ -122,6 +124,13 @@ class RegistrationFragment : Fragment() {
 
         binding.removeAvatar.setOnClickListener {
             profileViewModel.changePhoto(null)
+        }
+
+        authViewModel.data.observe(viewLifecycleOwner) {
+            if(authViewModel.authenticated) {
+                requireView().hideKeyboard()
+                findNavController().navigate(R.id.navigation_dashboard)
+            }
         }
 
         return binding.root

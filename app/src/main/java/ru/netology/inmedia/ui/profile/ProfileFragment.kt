@@ -10,6 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,6 +21,7 @@ import kotlinx.coroutines.flow.collectLatest
 import ru.netology.inmedia.BuildConfig
 import ru.netology.inmedia.R
 import ru.netology.inmedia.adapter.PagingLoadStateAdapter
+import ru.netology.inmedia.adapter.PostAdapter
 import ru.netology.inmedia.adapter.PostAdapterClickListener
 import ru.netology.inmedia.adapter.UserAdapter
 import ru.netology.inmedia.auth.AppAuth
@@ -37,9 +42,9 @@ class ProfileFragment : Fragment() {
 
 //    private val id = auth.getMyId()
 
-//    private val profileViewModel: ProfileViewModel by viewModels(
-//        ownerProducer = ::requireParentFragment
-//    )
+    private val profileViewModel: ProfileViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
     private val postViewModel: PostViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
@@ -58,15 +63,8 @@ class ProfileFragment : Fragment() {
             false
         )
 
-//        viewModel.data.observe(viewLifecycleOwner) {
-//            if (viewModel.authenticated) {
-//                binding.unauthenticated.visibility = View.INVISIBLE
-//            } else {
-//                binding.unauthenticated.visibility = View.VISIBLE
-//            }
-//        }
 
-        val adapter = UserAdapter(
+        val adapter = PostAdapter(
             object : PostAdapterClickListener {
                 override fun onEditClicked(post: Post) {
                     hideNavBar()
@@ -104,7 +102,14 @@ class ProfileFragment : Fragment() {
             "${BuildConfig.BASE_URL}"
         )
 
+        binding.listOfPosts.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = PagingLoadStateAdapter(adapter::retry),
+            footer = PagingLoadStateAdapter(adapter::retry)
+        )
 
+        binding.swipeRefresh.setOnRefreshListener {
+            postViewModel.loadUserPosts()
+        }
 
 
 
@@ -114,19 +119,9 @@ class ProfileFragment : Fragment() {
             binding.swipeRefresh.isRefreshing = state.refreshing
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry_loading) { postViewModel.loadPosts() }
+                    .setAction(R.string.retry_loading) { postViewModel.loadUserPosts() }
                     .show()
             }
-        }
-
-
-//        binding.listOfPosts.adapter = adapter.withLoadStateHeaderAndFooter(
-//            header = PagingLoadStateAdapter(adapter::retry),
-//            footer = PagingLoadStateAdapter(adapter::retry)
-//        )
-
-        binding.retryButton.setOnClickListener {
-            postViewModel.loadPosts()
         }
 
         lifecycleScope.launchWhenCreated {
@@ -134,15 +129,24 @@ class ProfileFragment : Fragment() {
                 adapter.submitData(it)
             }
         }
+        /*Только один юзер, нужен ли ViewHolder в таком случае?
+        Не плохо ли, что биндинг прямо во фрагменте?*/
 
-//        binding.login.setOnClickListener {
-//            findNavController().navigate(R.id.action_navigation_home_to_fragment_login)
-//        }
-//
-//        binding.registration.setOnClickListener {
-//            findNavController().navigate(R.id.action_navigation_home_to_fragment_registration)
-//        }
+        postViewModel.loadUserProfile(auth.getMyId())
+        postViewModel.user.observe(viewLifecycleOwner) {user ->
+            binding.name.text = user.name
+            Glide.with(binding.avatarIv)
+                .load("${user.avatar}")
+                .placeholder(R.drawable.ic_loading_100dp)
+                .error(R.drawable.ic_no_avatar_24)
+                .timeout(10_000)
+                .transform(MultiTransformation(FitCenter(), CircleCrop()))
+                .into(binding.avatarIv)
+        }
 
+        binding.retryButton.setOnClickListener {
+            postViewModel.loadUserPosts()
+        }
 
         return binding.root
     }

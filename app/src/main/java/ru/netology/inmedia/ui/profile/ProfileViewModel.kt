@@ -34,25 +34,27 @@ class ProfileViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    @ExperimentalPagingApi
-    private val cached = profileRepository.data.cachedIn(viewModelScope)
-
-    @ExperimentalPagingApi
-    val data: Flow<PagingData<FeedModel>> = auth.authStateFlow
-        .flatMapLatest { (myId, _) ->
-            cached.map { pagingData ->
-                pagingData.map { post ->
-                    PostModel(post.copy(ownedByMe = post.authorId == myId))
-                }
-            }
-        }
 
 
-
-    private val _dataState = MutableLiveData<FeedModelState>()
-    val dataState: LiveData<FeedModelState>
-        get() = _dataState
-
+//    @ExperimentalPagingApi
+//    private val cached = profileRepository.data.cachedIn(viewModelScope)
+//
+//    @ExperimentalPagingApi
+//    val data: Flow<PagingData<FeedModel>> = auth.authStateFlow
+//        .flatMapLatest { (myId, _) ->
+//            cached.map { pagingData ->
+//                pagingData.map { post ->
+//                    PostModel(post.copy(ownedByMe = post.authorId == myId))
+//                }
+//            }
+//        }
+//
+//
+//
+//    private val _dataState = MutableLiveData<FeedModelState>()
+//    val dataState: LiveData<FeedModelState>
+//        get() = _dataState
+//
     private val _photo = MutableLiveData(noPhoto)
     val photo: LiveData<PhotoModel>
         get() = _photo
@@ -60,23 +62,23 @@ class ProfileViewModel @Inject constructor(
     fun changePhoto(uri: Uri?) {
         _photo.value = PhotoModel(uri)
     }
-
-    fun loadPosts() = viewModelScope.launch {
-        try {
-            _dataState.value = FeedModelState(loading = true)
-            profileRepository.getLatestPosts()
-            _dataState.value = FeedModelState()
-        } catch (e: Exception) {
-            _dataState.value = FeedModelState(error = true)
-        }
-    }
-
-    fun loadUserProfile(id: Long) = viewModelScope.launch {
-        try {
-            _dataState.value = FeedModelState(loading = true)
-            profileRepository.getUserById(id)
-        } catch (e: Exception) {
-            _dataState.value = FeedModelState(error = true)
-        }
-    }
+//
+//    fun loadPosts() = viewModelScope.launch {
+//        try {
+//            _dataState.value = FeedModelState(loading = true)
+//            profileRepository.getLatestPosts()
+//            _dataState.value = FeedModelState()
+//        } catch (e: Exception) {
+//            _dataState.value = FeedModelState(error = true)
+//        }
+//    }
+//
+//    fun loadUserProfile(id: Long) = viewModelScope.launch {
+//        try {
+//            _dataState.value = FeedModelState(loading = true)
+//            profileRepository.getUserById(id)
+//        } catch (e: Exception) {
+//            _dataState.value = FeedModelState(error = true)
+//        }
+//    }
 }

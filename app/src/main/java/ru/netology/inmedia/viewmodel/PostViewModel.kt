@@ -19,10 +19,7 @@ import kotlinx.coroutines.launch
 import ru.netology.inmedia.SingleLiveEvent
 import ru.netology.inmedia.auth.AppAuth
 import ru.netology.inmedia.dao.PostDao
-import ru.netology.inmedia.dto.Attachment
-import ru.netology.inmedia.dto.Coordinates
-import ru.netology.inmedia.dto.MediaUpload
-import ru.netology.inmedia.dto.Post
+import ru.netology.inmedia.dto.*
 import ru.netology.inmedia.model.FeedModel
 import ru.netology.inmedia.model.FeedModelState
 import ru.netology.inmedia.model.PhotoModel
@@ -44,8 +41,15 @@ private val defaultPost = Post(
     content = "",
     published = "",
 )
+private val defaultUser = User(
+    id = 0L,
+    login = "",
+    name = "",
+    authorities = emptyList()
+)
 
 private val noPhoto = PhotoModel()
+
 @HiltViewModel
 @ExperimentalCoroutinesApi
 class PostViewModel @Inject constructor(
@@ -54,7 +58,6 @@ class PostViewModel @Inject constructor(
     auth: AppAuth,
     private val profileRepository: ProfileRepository
 ) : ViewModel() {
-
 
 
     private val cached = postRepository.data.cachedIn(viewModelScope)
@@ -81,16 +84,27 @@ class PostViewModel @Inject constructor(
     val photo: LiveData<PhotoModel>
         get() = _photo
 
+    private val _user = MutableLiveData(defaultUser)
+    val user: MutableLiveData<User>
+        get() = _user
+
+    private val _userPosts = MutableLiveData<List<Post>>()
+    val userPost: LiveData<List<Post>>
+    get() = _userPosts
+
 
     init {
         loadPosts()
+        loadUserPosts()
         FirebaseInstallations.getInstance().getToken(true)
     }
 
     fun loadUserProfile(id: Long) = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
-            profileRepository.getUserById(id)
+            val us = profileRepository.getUserById(id)
+            user.value = user.value?.copy(id = us.id, login = us.login, name = us.name)
+            _dataState.value = FeedModelState()
         } catch (e: Exception) {
             _dataState.value = FeedModelState(error = true)
         }
@@ -100,6 +114,16 @@ class PostViewModel @Inject constructor(
         try {
             _dataState.value = FeedModelState(loading = true)
             postRepository.getLatestPosts()
+            _dataState.value = FeedModelState()
+        } catch (e: Exception) {
+            _dataState.value = FeedModelState(error = true)
+        }
+    }
+
+    fun loadUserPosts() = viewModelScope.launch {
+        try {
+            _dataState.value = FeedModelState(loading = true)
+            profileRepository.getLatestPosts()
             _dataState.value = FeedModelState()
         } catch (e: Exception) {
             _dataState.value = FeedModelState(error = true)

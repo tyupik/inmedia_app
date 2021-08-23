@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -134,6 +135,7 @@ class MainActivity : AppCompatActivity() {
                 auth.removeAuth()
                 postViewModel.refreshPosts()
                 Toast.makeText(this, "Выход", Toast.LENGTH_SHORT).show()
+                findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.navigation_sign_in)
                 true
             }
             else -> super.onOptionsItemSelected(item)
