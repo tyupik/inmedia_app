@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:visibility="invisible">-->
-
-
-
-
         <ImageView
             android:id="@+id/avatarIv"
             android:layout_width="100dp"
@@ -92,8 +84,5 @@
         </androidx.recyclerview.widget.RecyclerView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import ru.netology.inmedia.R
 import ru.netology.inmedia.api.token
 import ru.netology.inmedia.auth.AppAuth
 import ru.netology.inmedia.databinding.FragmentLoginBinding
@@ -44,7 +45,7 @@ class LoginFragment : Fragment() {
         authViewModel.data.observe(viewLifecycleOwner) {
             if(authViewModel.authenticated) {
                 requireView().hideKeyboard()
-                findNavController().navigateUp()
+                findNavController().navigate(R.id.navigation_dashboard)
             }
         }
 

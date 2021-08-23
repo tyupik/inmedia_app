@@ -9,13 +9,8 @@
         android:id="@+id/navigation_home"
         android:name="ru.netology.inmedia.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_navigation_home_to_fragment_registration"
-            app:destination="@id/fragment_registration" />
-        <action
-            android:id="@+id/action_navigation_home_to_fragment_login"
-            app:destination="@id/fragment_login" />
+        tools:layout="@layout/fragment_profile">
+
     </fragment>
 
     <fragment
@@ -39,6 +34,20 @@
         android:name="ru.netology.inmedia.ui.events.EventsFragment"
         android:label="@string/title_events"
         tools:layout="@layout/fragment_events" />
+
+    <fragment
+        android:id="@+id/navigation_sign_in"
+        android:name="ru.netology.inmedia.ui.SignInFragment"
+        android:label="@string/sign_in"
+        tools:layout="@layout/fragment_sign_in">
+        <action
+            android:id="@+id/action_navigation_sign_in_to_fragment_registration"
+            app:destination="@id/fragment_registration" />
+        <action
+            android:id="@+id/action_navigation_sign_in_to_fragment_login"
+            app:destination="@id/fragment_login" />
+    </fragment>
+
     <fragment
         android:id="@+id/attach_photo_viewer"
         android:name="ru.netology.inmedia.ui.AttachViewerFragment"
@@ -56,5 +65,9 @@
         android:id="@+id/fragment_registration"
         android:name="ru.netology.inmedia.ui.RegistrationFragment"
         tools:layout="@layout/fragment_registration" />
+
+
+
+
 
 </navigation>

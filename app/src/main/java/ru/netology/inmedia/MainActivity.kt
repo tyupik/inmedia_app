@@ -89,25 +89,33 @@ class MainActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = binding.navView
 
-        if (viewModel.authenticated) {
-            navView.menu.findItem(R.id.navigation_registration).isVisible = false
-            navView.menu.findItem(R.id.navigation_home).isVisible = true
-        } else {
-            navView.menu.findItem(R.id.navigation_registration).isVisible = true
-            navView.menu.findItem(R.id.navigation_home).isVisible = false
+        viewModel.data.observe(this) {
+            if (viewModel.authenticated) {
+                navView.menu.findItem(R.id.navigation_sign_in).isVisible = false
+                navView.menu.findItem(R.id.navigation_home).isVisible = true
+            } else {
+                navView.menu.findItem(R.id.navigation_sign_in).isVisible = true
+                navView.menu.findItem(R.id.navigation_home).isVisible = false
+            }
         }
+
 
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
-                setOf(
-                    R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_events, R.id.navigation_registration
-                )
+            setOf(
+                R.id.navigation_sign_in,
+                R.id.navigation_home,
+                R.id.navigation_dashboard,
+                R.id.navigation_events,
+            )
 
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -118,6 +126,7 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

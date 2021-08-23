@@ -16,9 +16,8 @@
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_profile"/>
     <item
-        android:id="@+id/navigation_registration"
+        android:id="@+id/navigation_sign_in"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/sign_in"/>
-
 
 </menu>
