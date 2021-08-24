@@ -6,9 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import androidx.paging.map
+import androidx.paging.*
 import androidx.work.*
 import com.google.firebase.installations.FirebaseInstallations
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,10 +18,7 @@ import ru.netology.inmedia.SingleLiveEvent
 import ru.netology.inmedia.auth.AppAuth
 import ru.netology.inmedia.dao.PostDao
 import ru.netology.inmedia.dto.*
-import ru.netology.inmedia.model.FeedModel
-import ru.netology.inmedia.model.FeedModelState
-import ru.netology.inmedia.model.PhotoModel
-import ru.netology.inmedia.model.PostModel
+import ru.netology.inmedia.model.*
 import ru.netology.inmedia.repository.PostRepository
 import ru.netology.inmedia.repository.ProfileRepository
 import ru.netology.inmedia.work.RemovePostWorker
@@ -61,6 +56,20 @@ class PostViewModel @Inject constructor(
 
 
     private val cached = postRepository.data.cachedIn(viewModelScope)
+    private val cachedUser = profileRepository.data.cachedIn(viewModelScope)
+
+    val userData: Flow<PagingData<FeedModel>> = auth.authStateFlow
+        .flatMapLatest { (myId, _) ->
+            cachedUser.map { pagingData ->
+                pagingData.filter { post ->
+                    post.authorId == myId
+                }.map { post ->
+                    PostModel(post.copy(ownedByMe = post.authorId == myId))
+                }
+
+            }
+        }
+
 
     val data: Flow<PagingData<FeedModel>> = auth.authStateFlow
         .flatMapLatest { (myId, _) ->
@@ -88,9 +97,9 @@ class PostViewModel @Inject constructor(
     val user: MutableLiveData<User>
         get() = _user
 
-    private val _userPosts = MutableLiveData<List<Post>>()
-    val userPost: LiveData<List<Post>>
-    get() = _userPosts
+//    private val _userPosts = MutableLiveData<List<Post>>()
+//    val userPost: LiveData<List<Post>>
+//    get() = _userPosts
 
 
     init {

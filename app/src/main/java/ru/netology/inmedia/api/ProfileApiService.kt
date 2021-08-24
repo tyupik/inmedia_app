@@ -16,4 +16,10 @@ interface ProfileApiService {
     @GET("api/users/{id}")
     suspend fun getUserById(@Path("id") id: Long): Response<User>
 
+    @GET("api/my/wall/{id}/before")
+    suspend fun getBefore(
+        @Path("id") id: Long,
+        @Query("count") count: Int
+    ): Response<List<Post>>
+
 }

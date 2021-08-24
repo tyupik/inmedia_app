@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.ExperimentalPagingApi
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -23,7 +22,6 @@ import ru.netology.inmedia.R
 import ru.netology.inmedia.adapter.PagingLoadStateAdapter
 import ru.netology.inmedia.adapter.PostAdapter
 import ru.netology.inmedia.adapter.PostAdapterClickListener
-import ru.netology.inmedia.adapter.UserAdapter
 import ru.netology.inmedia.auth.AppAuth
 import ru.netology.inmedia.databinding.FragmentProfileBinding
 import ru.netology.inmedia.dto.Post
@@ -40,17 +38,16 @@ class ProfileFragment : Fragment() {
     @Inject
     lateinit var auth: AppAuth
 
-//    private val id = auth.getMyId()
 
-    private val profileViewModel: ProfileViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+//    private val profileViewModel: ProfileViewModel by viewModels(
+//        ownerProducer = ::requireParentFragment
+//    )
     private val postViewModel: PostViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
 
 
-    @ExperimentalPagingApi
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -125,7 +122,7 @@ class ProfileFragment : Fragment() {
         }
 
         lifecycleScope.launchWhenCreated {
-            postViewModel.data.collectLatest {
+            postViewModel.userData.collectLatest {
                 adapter.submitData(it)
             }
         }

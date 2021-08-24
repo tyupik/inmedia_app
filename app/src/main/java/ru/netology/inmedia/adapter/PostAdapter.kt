@@ -5,9 +5,12 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import ru.netology.inmedia.R
 import ru.netology.inmedia.databinding.PostCardItemBinding
+import ru.netology.inmedia.databinding.UserCardItemBinding
 import ru.netology.inmedia.model.FeedModel
 import ru.netology.inmedia.model.PostModel
+import ru.netology.inmedia.model.UserModel
 
 class PostAdapter(
     private val listener: PostAdapterClickListener,
@@ -25,6 +28,7 @@ class PostAdapter(
             listener,
             url
         )
+
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
