@@ -7,9 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.netology.inmedia.dao.PostDao
-import ru.netology.inmedia.dao.PostKeyDao
-import ru.netology.inmedia.dao.PostWorkDao
+import ru.netology.inmedia.dao.*
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -29,8 +27,17 @@ class DbModule {
     fun providePostDao(db: AppDb): PostDao = db.postDao()
 
     @Provides
+    fun provideEventDao(db: AppDb): EventDao = db.eventDao()
+
+    @Provides
     fun providePostKeyDao(db: AppDb): PostKeyDao = db.postRemoteKeyDao()
 
     @Provides
     fun providePostWorkDao(db: AppDb): PostWorkDao = db.postWorkDao()
+
+    @Provides
+    fun provideEventWorkDao(db: AppDb): EventWorkDao = db.eventWorkDao()
+
+    @Provides
+    fun provideEventKeyDao(db: AppDb): EventKeyDao = db.eventRemoteKeyDao()
 }

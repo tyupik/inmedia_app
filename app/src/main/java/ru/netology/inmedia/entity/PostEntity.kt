@@ -98,15 +98,3 @@ data class CoordinatesEmbeddable(
     }
 }
 
-//data class PublishedEmbeddable(
-//    var published: Long
-//) {
-//    fun toDto(): Instant =
-//        Instant.ofEpochMilli(published)
-//
-//    companion object {
-//        fun fromDto(dto: Instant) = PublishedEmbeddable(dto.toEpochMilli())
-//    }
-//
-//
-//}

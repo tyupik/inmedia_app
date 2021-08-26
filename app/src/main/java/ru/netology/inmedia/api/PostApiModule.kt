@@ -89,4 +89,8 @@ class PostApiModule {
     @Singleton
     @Provides
     fun provideProfileApi(retrofit: Retrofit):ProfileApiService = retrofit.create()
+
+    @Singleton
+    @Provides
+    fun provideEventApi(retrofit: Retrofit):EventApiService = retrofit.create()
 }

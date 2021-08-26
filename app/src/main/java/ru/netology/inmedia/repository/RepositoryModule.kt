@@ -17,4 +17,8 @@ interface RepositoryModule {
     @Singleton
     @Binds
     fun bindProfileRepo(impl: ProfileRepositoryImpl) : ProfileRepository
+
+    @Singleton
+    @Binds
+    fun bindEventRepo(impl: EventRepositoryImpl) : EventRepository
 }
