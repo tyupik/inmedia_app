@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ru.netology.inmedia.repository.EventRepository
 import ru.netology.inmedia.repository.PostRepository
 import javax.inject.Singleton
 
@@ -21,11 +22,12 @@ class WorkManagerModule {
         @ApplicationContext
         context: Context,
 //        workerFactory:WorkManagerModule,
-        repository: PostRepository
+        repository: PostRepository,
+        eventRepository: EventRepository
     ): WorkManager {
         WorkManager.initialize(
             context, Configuration.Builder()
-                .setWorkerFactory(WorkerFactoryDelegate(repository))
+                .setWorkerFactory(WorkerFactoryDelegate(repository, eventRepository))
                 .build())
 
         return WorkManager.getInstance(context)

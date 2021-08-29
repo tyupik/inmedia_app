@@ -11,6 +11,12 @@
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile">
 
+        <action
+            android:id="@+id/action_navigation_home_to_attach_photo_viewer"
+            app:destination="@id/attach_photo_viewer" />
+        <action
+            android:id="@+id/action_navigation_home_to_fragment_new_post"
+            app:destination="@id/fragment_new_post" />
     </fragment>
 
     <fragment
@@ -33,7 +39,14 @@
         android:id="@+id/navigation_events"
         android:name="ru.netology.inmedia.ui.events.EventsFragment"
         android:label="@string/title_events"
-        tools:layout="@layout/fragment_events" />
+        tools:layout="@layout/fragment_events" >
+        <action
+            android:id="@+id/action_navigation_events_to_fragment_new_event"
+            app:destination="@id/fragment_new_event" />
+        <action
+            android:id="@+id/action_navigation_events_to_attach_photo_viewer"
+            app:destination="@id/attach_photo_viewer" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_sign_in"
@@ -65,6 +78,10 @@
         android:id="@+id/fragment_registration"
         android:name="ru.netology.inmedia.ui.RegistrationFragment"
         tools:layout="@layout/fragment_registration" />
+    <fragment
+        android:id="@+id/fragment_new_event"
+        android:name="ru.netology.inmedia.ui.NewEventFragment"
+        tools:layout="@layout/fragment_new_event" />
 
 
 

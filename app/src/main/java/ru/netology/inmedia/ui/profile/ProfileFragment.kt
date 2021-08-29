@@ -66,7 +66,7 @@ class ProfileFragment : Fragment() {
                 override fun onEditClicked(post: Post) {
                     hideNavBar()
                     findNavController().navigate(
-                        R.id.action_feedFragment_to_new_post_fragment,
+                        R.id.action_navigation_home_to_fragment_new_post,
                         Bundle().apply {
                             textArg = post.content
                         }
@@ -89,7 +89,7 @@ class ProfileFragment : Fragment() {
                 override fun onAttachmentClicked(post: Post) {
                     hideNavBar()
                     findNavController().navigate(
-                        R.id.action_feedFragment_to_attach_photo_viewer,
+                        R.id.action_navigation_home_to_attach_photo_viewer,
                         Bundle().apply {
                             textArg = post.attachment?.url
                         }

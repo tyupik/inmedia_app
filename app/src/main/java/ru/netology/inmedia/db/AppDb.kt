@@ -4,13 +4,20 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ru.netology.inmedia.dao.*
-import ru.netology.inmedia.entity.PostEntity
-import ru.netology.inmedia.entity.PostRemoteKeyEntity
-import ru.netology.inmedia.entity.PostWorkEntity
+import ru.netology.inmedia.entity.*
+import ru.netology.inmedia.entitydata.EventEntity
 
-@Database(entities = [PostEntity::class, PostRemoteKeyEntity::class, PostWorkEntity::class], version = 3, exportSchema = false)
+@Database(
+    entities = [
+        PostEntity::class,
+        PostRemoteKeyEntity::class,
+        PostWorkEntity::class,
+        EventEntity::class,
+        EventRemoteKeyEntity::class,
+        EventWorkEntity::class], version = 4, exportSchema = false
+)
 @TypeConverters(Converters::class)
-abstract class AppDb :RoomDatabase() {
+abstract class AppDb : RoomDatabase() {
     abstract fun postDao(): PostDao
     abstract fun eventDao(): EventDao
     abstract fun postRemoteKeyDao(): PostKeyDao

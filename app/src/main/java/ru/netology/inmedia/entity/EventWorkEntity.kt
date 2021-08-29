@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.inmedia.dto.Event
 import ru.netology.inmedia.entitydata.EventEntity
+import ru.netology.inmedia.entitydata.TypeEmbeddable
 import ru.netology.inmedia.enumiration.EventType
 
 @Entity
@@ -19,7 +20,8 @@ class EventWorkEntity(
     val published: String,
     @Embedded
     val coords: CoordinatesEmbeddable?,
-    val type: EventType,
+    @Embedded
+    val type: TypeEmbeddable,
     val likedByMe: Boolean = false,
     val participatedByMe: Boolean = false,
     @Embedded
@@ -36,7 +38,7 @@ class EventWorkEntity(
             datetime = datetime,
             published = published,
             coords = coords?.toDto(),
-            type = type,
+            type = type.toDto(),
             likedByMe = likedByMe,
             attachment = attachment?.toDto()
         )
@@ -52,7 +54,7 @@ class EventWorkEntity(
                 dto.datetime,
                 dto.published,
                 CoordinatesEmbeddable.fromDto(dto.coords),
-                dto.type,
+                TypeEmbeddable.fromDto(dto.type),
                 dto.likedByMe,
                 dto.participatedByMe,
                 AttachmentEmbeddable.fromDto(dto.attachment)

@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -65,7 +66,7 @@ class FeedFragment : Fragment() {
                 }
 
                 override fun onRemoveClicked(post: Post) {
-                    postViewModel.removeById(post.id)
+                        postViewModel.removeById(post.id)
                 }
 
                 override fun onLikeClicked(post: Post) {
@@ -78,7 +79,7 @@ class FeedFragment : Fragment() {
 
                 override fun onAttachmentClicked(post: Post) {
                     // Тут надо сделать проверку, какой тип вложения
-                    // Пока что возьмем по дефолтку фото
+                    // Пока что возьмем по дефолту фото
                     hideNavBar()
                     findNavController().navigate(
                         R.id.action_feedFragment_to_attach_photo_viewer,
@@ -86,7 +87,6 @@ class FeedFragment : Fragment() {
                             textArg = post.attachment?.url
                         }
                     )
-//                    activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
                 }
             },
             "${BuildConfig.BASE_URL}"
@@ -134,6 +134,10 @@ class FeedFragment : Fragment() {
                 binding.fab.visibility = View.INVISIBLE
             }
         }
+
+        binding.listOfPosts.addItemDecoration(
+            DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+        )
 
         binding.fab.setOnClickListener {
             hideNavBar()

@@ -22,6 +22,7 @@ import ru.netology.inmedia.dto.Media
 import ru.netology.inmedia.dto.MediaUpload
 import ru.netology.inmedia.entity.EventWorkEntity
 import ru.netology.inmedia.entitydata.EventEntity
+import ru.netology.inmedia.entitydata.TypeEmbeddable
 import ru.netology.inmedia.entitydata.toEntity
 import ru.netology.inmedia.enumiration.AttachmentType
 import ru.netology.inmedia.error.ApiError
@@ -214,8 +215,8 @@ class EventRepositoryImpl @Inject constructor(
                 content = entity.content,
                 published = Instant.now().toString(),
                 likedByMe = entity.likedByMe,
-                datetime = entity.datetime,
-                type = entity.type,
+                datetime = Instant.now().toString(),
+                type = TypeEmbeddable.toDto(entity.type),
                 participatedByMe = entity.participatedByMe
 
                 )

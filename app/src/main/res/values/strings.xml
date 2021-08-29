@@ -4,6 +4,7 @@
     <string name="title_feed">Feed</string>
     <string name="title_events">Events</string>
     <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
+    <string name="empty_events">There are no events.\nIf you create a new event, it will appear here</string>
     <string name="menu_remove">Remove</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_save">Save</string>
@@ -30,4 +31,7 @@
     <string name="something_went_wrong">Something went wrong. Try again</string>
     <string name="preposition_of_time">at</string>
     <string name="sign_in">Sign In</string>
+    <string name="unparticipate">Не принимать участие</string>
+    <string name="datetime">Date of the event</string>
+    <string name="event_type">Event type (online/offline)</string>
 </resources>

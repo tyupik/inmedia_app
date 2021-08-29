@@ -89,6 +89,7 @@ dependencies {
     implementation "com.github.dhaval2404:imagepicker:$imagepicker_version"
     implementation "androidx.work:work-runtime-ktx:$workmanager_version"
     implementation "com.github.chrisbanes:PhotoView:$photo_view"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$hilt_version"
 
 
 
