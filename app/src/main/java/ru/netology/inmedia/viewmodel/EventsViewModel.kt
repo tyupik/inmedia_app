@@ -165,7 +165,7 @@ class EventsViewModel @Inject constructor(
             return
         }
         val type = TypeEmbeddable(type).toDto()
-        edited.value = edited.value?.copy(content = text, type = type)
+        edited.value = edited.value?.copy(content = text, datetime = datetime, type = type)
     }
 
 

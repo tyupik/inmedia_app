@@ -10,6 +10,7 @@ import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import dagger.hilt.android.qualifiers.ApplicationContext
+import okhttp3.internal.UTC
 import ru.netology.inmedia.R
 import ru.netology.inmedia.databinding.EventCardItemBinding
 import ru.netology.inmedia.dto.Event
@@ -92,7 +93,7 @@ class EventViewHolder (
     }
 
     private fun formatData(instant: String) : String {
-        return DateTimeFormatter.ofPattern("d.MM.yyyy 'в' HH:mm ")
+        return DateTimeFormatter.ofPattern("dd.MM.yyyy 'в' HH:mm ")
             .withZone(ZoneId.of("Europe/Moscow"))
             .format(Instant.parse(instant))
     }

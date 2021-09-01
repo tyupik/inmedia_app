@@ -215,7 +215,7 @@ class EventRepositoryImpl @Inject constructor(
                 content = entity.content,
                 published = Instant.now().toString(),
                 likedByMe = entity.likedByMe,
-                datetime = Instant.now().toString(),
+                datetime = entity.datetime,
                 type = TypeEmbeddable.toDto(entity.type),
                 participatedByMe = entity.participatedByMe
 

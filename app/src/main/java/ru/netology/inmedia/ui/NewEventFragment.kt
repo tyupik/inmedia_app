@@ -28,6 +28,12 @@ import javax.xml.datatype.DatatypeConstants.MONTHS
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.widget.*
+import java.time.*
+import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalQueries.localDate
+
+
+
 
 
 @AndroidEntryPoint
@@ -48,6 +54,7 @@ class NewEventFragment : Fragment() {
     private var fragmentBinding: FragmentNewEventBinding? = null
     private var photoValue = PhotoModel(null)
     private var itemType = ""
+    private var dateTime = ""
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -66,13 +73,14 @@ class NewEventFragment : Fragment() {
                 fragmentBinding?.let {
                     viewModel.changeContent(
                         it.edit.text.toString(),
-                        it.dateTimeET.text.toString(),
+                        dateTime,
+//                        it.dateTimeET.text.toString(),
                         itemType
                     )
                     viewModel.save(photoValue)
                     requireView().hideKeyboard()
                     if (viewModel.dataState.value == EventFeedModelState(loading = true)) {
-                        findNavController().navigateUp()
+                        findNavController().previousBackStackEntry
                     } else {
                         print(viewModel.dataState.value)
                         Toast.makeText(
@@ -133,8 +141,14 @@ class NewEventFragment : Fragment() {
                             date.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             date.set(Calendar.MINUTE, minute)
                             val myTimeFormat = "HH:mm"
-                            val sdfTime = SimpleDateFormat(myTimeFormat, Locale.US)
+                            val sdfTime = SimpleDateFormat(myTimeFormat, Locale.ROOT)
                             binding.dateTimeET.text = sdf.format(date.time) +"в" + sdfTime.format(date.time)
+                            val date = sdf.format(date.time) + " " + sdfTime.format(date.time)
+                            val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
+                                "dd.MM.yyyy HH:mm",
+                                Locale.ROOT
+                            )
+                            dateTime = LocalDateTime.parse(date, formatter).toInstant(OffsetDateTime.now().offset).toString()
                         }, currentDate[Calendar.HOUR_OF_DAY], currentDate[Calendar.MINUTE], true
                     ).show()
                 },

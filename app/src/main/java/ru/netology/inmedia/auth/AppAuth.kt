@@ -56,8 +56,8 @@ class AppAuth @Inject constructor(
         }
     }
 
-    fun getMyId() : Long {
-        return if(prefs.getLong(idKey, 0) != 0L ) prefs.getLong(idKey, 0) else 0L
+    fun getMyId(): Long {
+        return if (prefs.getLong(idKey, 0) != 0L) prefs.getLong(idKey, 0) else 0L
     }
 
     @InstallIn(SingletonComponent::class)
@@ -139,28 +139,55 @@ class AppAuth @Inject constructor(
     fun setRegistration(login: String, pass: String, name: String, upload: MultipartBody.Part?) {
         CoroutineScope(Dispatchers.Default).launch {
             try {
-                val response = getPostApiService(context).registration(login, pass, name, upload)
-                if (!response.isSuccessful) {
+                if (upload != null) {
+                    val response =
+                        getPostApiService(context).registration(login, pass, name, upload)
+
+                    if (!response.isSuccessful) {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            Toast.makeText(
+                                context,
+                                "Что-то пошло не так",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        throw ApiError(response.code(), response.message())
+                    }
+                    val body =
+                        response.body() ?: throw ApiError(response.code(), response.message())
+                    setAuth(body.id, body.token)
+                    println(body.token)
                     CoroutineScope(Dispatchers.Main).launch {
                         Toast.makeText(
                             context,
-                            "Что-то пошло не так",
+                            "Регистрация прошла успешно",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                    throw ApiError(response.code(), response.message())
+                } else {
+                    val response = getPostApiService(context).registration(login, pass, name)
+                    if (!response.isSuccessful) {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            Toast.makeText(
+                                context,
+                                "Что-то пошло не так",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        throw ApiError(response.code(), response.message())
+                    }
+                    val body =
+                        response.body() ?: throw ApiError(response.code(), response.message())
+                    setAuth(body.id, body.token)
+                    println(body.token)
+                    CoroutineScope(Dispatchers.Main).launch {
+                        Toast.makeText(
+                            context,
+                            "Регистрация прошла успешно",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-                val body = response.body() ?: throw ApiError(response.code(), response.message())
-                setAuth(body.id, body.token)
-                println(body.token)
-                CoroutineScope(Dispatchers.Main).launch {
-                    Toast.makeText(
-                        context,
-                        "Регистрация прошла успешно",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
             } catch (e: IOException) {
                 throw NetworkError
             } catch (e: Exception) {
@@ -169,7 +196,6 @@ class AppAuth @Inject constructor(
             }
         }
     }
-
 
 
     @Synchronized

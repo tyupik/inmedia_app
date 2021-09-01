@@ -39,13 +39,12 @@ class ProfileFragment : Fragment() {
     lateinit var auth: AppAuth
 
 
-//    private val profileViewModel: ProfileViewModel by viewModels(
+    //    private val profileViewModel: ProfileViewModel by viewModels(
 //        ownerProducer = ::requireParentFragment
 //    )
     private val postViewModel: PostViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
-
 
 
     override fun onCreateView(
@@ -130,7 +129,7 @@ class ProfileFragment : Fragment() {
         Не плохо ли, что биндинг прямо во фрагменте?*/
 
         postViewModel.loadUserProfile(auth.getMyId())
-        postViewModel.user.observe(viewLifecycleOwner) {user ->
+        postViewModel.user.observe(viewLifecycleOwner) { user ->
             binding.name.text = user.name
             Glide.with(binding.avatarIv)
                 .load("${user.avatar}")

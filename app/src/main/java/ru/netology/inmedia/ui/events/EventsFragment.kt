@@ -51,7 +51,7 @@ class EventsFragment : Fragment() {
         )
 
         val adapter = EventAdapter(
-            object : EventAdapterClickListener{
+            object : EventAdapterClickListener {
                 override fun onEditClicked(event: Event) {
                     hideNavBar()
                     findNavController().navigate(
@@ -131,7 +131,7 @@ class EventsFragment : Fragment() {
         }
 
         viewModel.data.observe(viewLifecycleOwner) {
-            if(viewModel.authenticated) {
+            if (viewModel.authenticated) {
                 binding.fab.visibility = View.VISIBLE
             } else {
                 binding.fab.visibility = View.INVISIBLE
@@ -147,6 +147,11 @@ class EventsFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_events_to_fragment_new_event)
         }
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
     }
 
     private fun hideNavBar() {

@@ -108,11 +108,19 @@ class PostViewModel @Inject constructor(
         FirebaseInstallations.getInstance().getToken(true)
     }
 
+//    fun getUserById(id: Long) = viewModelScope.launch {
+//        try {
+//            val user = profileRepository.getUserById(id)
+//            _user.value = user
+//        } catch (e: Exception) {
+//            _dataState.value = FeedModelState(error = true)
+//        }
+//    }
     fun loadUserProfile(id: Long) = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
             val us = profileRepository.getUserById(id)
-            user.value = user.value?.copy(id = us.id, login = us.login, name = us.name)
+            _user.value = user.value?.copy(id = us.id, login = us.login, name = us.name, avatar = us.avatar)
             _dataState.value = FeedModelState()
         } catch (e: Exception) {
             _dataState.value = FeedModelState(error = true)
