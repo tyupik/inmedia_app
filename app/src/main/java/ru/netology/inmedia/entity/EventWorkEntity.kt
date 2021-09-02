@@ -26,7 +26,8 @@ class EventWorkEntity(
     val participatedByMe: Boolean = false,
     @Embedded
     val attachment: AttachmentEmbeddable?,
-    var uri: String? = null
+    var uri: String? = null,
+    val participateCount: Int = 0
 ) {
     fun toDto() =
         Event(
@@ -57,7 +58,8 @@ class EventWorkEntity(
                 TypeEmbeddable.fromDto(dto.type),
                 dto.likedByMe,
                 dto.participatedByMe,
-                AttachmentEmbeddable.fromDto(dto.attachment)
+                AttachmentEmbeddable.fromDto(dto.attachment),
+                participateCount = dto.participantsIds.size
             )
     }
 }

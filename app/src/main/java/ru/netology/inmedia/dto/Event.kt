@@ -1,7 +1,6 @@
 package ru.netology.inmedia.dto
 
 import ru.netology.inmedia.enumiration.EventType
-import java.time.Instant
 
 data class Event(
     val id: Long,
@@ -43,5 +42,6 @@ data class Event(
      */
     val participatedByMe: Boolean = false,
     val attachment: Attachment? = null,
-    val ownedByMe: Boolean = false
+    val ownedByMe: Boolean = false,
+    val participateCount: Int = 0
 )

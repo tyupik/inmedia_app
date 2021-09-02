@@ -2,6 +2,7 @@ package ru.netology.inmedia.api
 
 
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 import ru.netology.inmedia.dto.Media
@@ -40,7 +41,8 @@ interface PostApiService {
 
     @Multipart
     @POST("api/users/registration")
-    suspend fun registration(@Part("login") login: String, @Part("pass") pass: String, @Part("name") name: String, @Part file: MultipartBody.Part): Response<Token>
+    suspend fun registration(@Part("login") login: RequestBody, @Part("pass") pass: RequestBody, @Part("name") name: RequestBody, @Part file: MultipartBody.Part): Response<Token>
+
 
     @POST("api/users/authentication")
     suspend fun sendAuth(@Query ("login") login: String, @Query ("pass") pass: String): Response<Token>

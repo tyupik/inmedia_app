@@ -59,7 +59,6 @@ class ProfileFragment : Fragment() {
             false
         )
 
-
         val adapter = PostAdapter(
             object : PostAdapterClickListener {
                 override fun onEditClicked(post: Post) {

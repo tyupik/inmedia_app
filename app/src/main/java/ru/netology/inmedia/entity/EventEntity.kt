@@ -29,6 +29,7 @@ class EventEntity(
     val participatedByMe: Boolean = false,
     @Embedded
     val attachment: AttachmentEmbeddable?,
+    val participateCount: Int = 0
 ) {
     fun toDto() =
         Event(
@@ -44,6 +45,7 @@ class EventEntity(
             likedByMe = likedByMe,
             participatedByMe = participatedByMe,
             attachment = attachment?.toDto(),
+            participateCount = participateCount
         )
 
     companion object {
@@ -60,7 +62,8 @@ class EventEntity(
                 TypeEmbeddable.fromDto(dto.type),
                 dto.likedByMe,
                 dto.participatedByMe,
-                AttachmentEmbeddable.fromDto(dto.attachment)
+                AttachmentEmbeddable.fromDto(dto.attachment),
+                dto.participantsIds.size
             )
     }
 }

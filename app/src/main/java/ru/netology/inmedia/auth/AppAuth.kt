@@ -16,10 +16,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import okhttp3.MediaType
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import ru.netology.inmedia.api.PostApiService
 import ru.netology.inmedia.api.token
-import ru.netology.inmedia.dto.MediaUpload
 import ru.netology.inmedia.dto.PushToken
 import ru.netology.inmedia.error.ApiError
 import ru.netology.inmedia.error.NetworkError
@@ -27,6 +29,7 @@ import ru.netology.inmedia.repository.PostRepository
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
+
 
 @Singleton
 class AppAuth @Inject constructor(
@@ -141,7 +144,7 @@ class AppAuth @Inject constructor(
             try {
                 if (upload != null) {
                     val response =
-                        getPostApiService(context).registration(login, pass, name, upload)
+                        getPostApiService(context).registration(login.toRequestBody(), pass.toRequestBody(), name.toRequestBody(), upload)
 
                     if (!response.isSuccessful) {
                         CoroutineScope(Dispatchers.Main).launch {

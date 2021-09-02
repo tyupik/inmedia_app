@@ -60,7 +60,11 @@ class EventsViewModel @Inject constructor(
         .flatMapLatest { (myId, _) ->
             cached.map { pagingData ->
                 pagingData.map { event ->
-                    EventModel(event.copy(ownedByMe = event.authorId == myId, participatedByMe = event.participatedByMe))
+                    print(event)
+                    EventModel(event.copy(
+                        ownedByMe = event.authorId == myId,
+                        participatedByMe = event.participatedByMe
+                    ))
                 }
             }
         }

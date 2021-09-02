@@ -1,7 +1,5 @@
 package ru.netology.inmedia.adapter
 
-import android.content.Context
-import android.provider.Settings.Global.getString
 import android.view.View
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
@@ -9,16 +7,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.FitCenter
-import dagger.hilt.android.qualifiers.ApplicationContext
-import okhttp3.internal.UTC
 import ru.netology.inmedia.R
 import ru.netology.inmedia.databinding.EventCardItemBinding
 import ru.netology.inmedia.dto.Event
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 class EventViewHolder (
     private val binding: EventCardItemBinding,
@@ -32,13 +26,11 @@ class EventViewHolder (
             authorTv.text = event.author
             dateTimeTV.text = formatData(event.datetime)
             eventTypeTV.text = event.type.name
-            numberOfParticipants.text = event.participantsIds.count().toString()
             contentTV.text = event.content
             publishedTV.text = formatData(event.published)
             participateMB.text = if (event.participatedByMe) "Не принимать участие" else "Принять участие"
             menu.visibility = if(event.ownedByMe) View.VISIBLE else View.INVISIBLE
-            numberOfParticipants.text = event.participantsIds.count().toString()
-
+            numberOfParticipants.text = event.participateCount.toString()
             menu.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
