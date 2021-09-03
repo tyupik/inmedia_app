@@ -9,7 +9,7 @@ import ru.netology.inmedia.dao.EventDao
 import ru.netology.inmedia.dao.EventKeyDao
 import ru.netology.inmedia.db.AppDb
 import ru.netology.inmedia.entity.EventRemoteKeyEntity
-import ru.netology.inmedia.entitydata.EventEntity
+import ru.netology.inmedia.entity.EventEntity
 import ru.netology.inmedia.error.ApiError
 
 

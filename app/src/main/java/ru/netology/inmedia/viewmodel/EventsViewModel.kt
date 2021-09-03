@@ -21,7 +21,7 @@ import ru.netology.inmedia.SingleLiveEvent
 import ru.netology.inmedia.auth.AppAuth
 import ru.netology.inmedia.dto.Event
 import ru.netology.inmedia.dto.MediaUpload
-import ru.netology.inmedia.entitydata.TypeEmbeddable
+import ru.netology.inmedia.entity.TypeEmbeddable
 import ru.netology.inmedia.enumiration.EventType
 import ru.netology.inmedia.model.EventFeedModel
 import ru.netology.inmedia.model.EventFeedModelState
@@ -30,7 +30,6 @@ import ru.netology.inmedia.model.PhotoModel
 import ru.netology.inmedia.repository.EventRepository
 import ru.netology.inmedia.work.RemoveEventWorker
 import ru.netology.inmedia.work.SaveEventWorker
-import java.time.Instant
 import javax.inject.Inject
 
 private val defaultEvent = Event(

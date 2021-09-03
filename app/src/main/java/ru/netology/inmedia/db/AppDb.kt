@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ru.netology.inmedia.dao.*
 import ru.netology.inmedia.entity.*
-import ru.netology.inmedia.entitydata.EventEntity
+import ru.netology.inmedia.entity.EventEntity
 
 @Database(
     entities = [

@@ -21,9 +21,9 @@ import ru.netology.inmedia.dto.Event
 import ru.netology.inmedia.dto.Media
 import ru.netology.inmedia.dto.MediaUpload
 import ru.netology.inmedia.entity.EventWorkEntity
-import ru.netology.inmedia.entitydata.EventEntity
-import ru.netology.inmedia.entitydata.TypeEmbeddable
-import ru.netology.inmedia.entitydata.toEntity
+import ru.netology.inmedia.entity.EventEntity
+import ru.netology.inmedia.entity.TypeEmbeddable
+import ru.netology.inmedia.entity.toEntity
 import ru.netology.inmedia.enumiration.AttachmentType
 import ru.netology.inmedia.error.ApiError
 import ru.netology.inmedia.error.AppError

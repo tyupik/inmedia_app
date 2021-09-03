@@ -4,9 +4,6 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.inmedia.dto.Event
-import ru.netology.inmedia.entitydata.EventEntity
-import ru.netology.inmedia.entitydata.TypeEmbeddable
-import ru.netology.inmedia.enumiration.EventType
 
 @Entity
 class EventWorkEntity(

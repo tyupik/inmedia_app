@@ -1,14 +1,9 @@
-package ru.netology.inmedia.entitydata
+package ru.netology.inmedia.entity
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import ru.netology.inmedia.dto.Attachment
-import ru.netology.inmedia.dto.Coordinates
 import ru.netology.inmedia.dto.Event
-import ru.netology.inmedia.entity.AttachmentEmbeddable
-import ru.netology.inmedia.entity.CoordinatesEmbeddable
-import ru.netology.inmedia.enumiration.AttachmentType
 import ru.netology.inmedia.enumiration.EventType
 
 @Entity
@@ -68,7 +63,7 @@ class EventEntity(
     }
 }
 
-fun List<Event>.toEntity(): List<EventEntity> = map(EventEntity::fromDto)
+fun List<Event>.toEntity(): List<EventEntity> = map(EventEntity.Companion::fromDto)
 
 data class TypeEmbeddable(
     val eventType: String
