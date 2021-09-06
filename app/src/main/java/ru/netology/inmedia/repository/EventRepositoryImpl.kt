@@ -1,5 +1,6 @@
 package ru.netology.inmedia.repository
 
+import android.content.Context
 import android.net.Uri
 import androidx.core.net.toFile
 import androidx.core.net.toUri
@@ -7,6 +8,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.map
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -38,8 +40,12 @@ class EventRepositoryImpl @Inject constructor(
     eventKeyDao: EventKeyDao,
     db: AppDb,
     private val eventDao: EventDao,
-    private val  eventWorkDao: EventWorkDao
+    private val  eventWorkDao: EventWorkDao,
+    @ApplicationContext
+    context: Context
 ) : EventRepository {
+
+    private val userInfoPrefs = context.getSharedPreferences("user", Context.MODE_PRIVATE)
 
     @ExperimentalPagingApi
     override val data = Pager(
@@ -87,7 +93,9 @@ class EventRepositoryImpl @Inject constructor(
                 throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            eventDao.insert(EventEntity.fromDto(body))
+            val name = userInfoPrefs.getString("userName", "")
+            val avatar = userInfoPrefs.getString("userAvatar", "")
+            eventDao.insert(EventEntity.fromDto(body.copy(author = name.toString(), authorAvatar = avatar)))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {

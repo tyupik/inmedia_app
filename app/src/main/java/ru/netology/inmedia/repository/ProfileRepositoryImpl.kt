@@ -1,11 +1,11 @@
 package ru.netology.inmedia.repository
 
-import androidx.paging.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.map
 import kotlinx.coroutines.flow.map
 import ru.netology.inmedia.api.PostApiService
-import ru.netology.inmedia.api.PostRemoteMediator
 import ru.netology.inmedia.api.ProfileApiService
 import ru.netology.inmedia.api.UserPostRemoteMediator
 import ru.netology.inmedia.dao.PostDao
@@ -26,7 +26,9 @@ class ProfileRepositoryImpl @Inject constructor(
     val postDao: PostDao,
     db: AppDb,
     postKeyDao: PostKeyDao
-        ): ProfileRepository {
+) : ProfileRepository {
+
+
 
 
     @ExperimentalPagingApi

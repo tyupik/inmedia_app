@@ -16,9 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import okhttp3.MediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import ru.netology.inmedia.api.PostApiService
 import ru.netology.inmedia.api.token
@@ -39,6 +37,8 @@ class AppAuth @Inject constructor(
     val postApiService: PostApiService
 ) {
     private val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
+    private val userInfoPrefs = context.getSharedPreferences("user", Context.MODE_PRIVATE)
+
     private val idKey = "id"
 
     private val _authStateFlow: MutableStateFlow<AuthState>
@@ -62,6 +62,7 @@ class AppAuth @Inject constructor(
     fun getMyId(): Long {
         return if (prefs.getLong(idKey, 0) != 0L) prefs.getLong(idKey, 0) else 0L
     }
+
 
     @InstallIn(SingletonComponent::class)
     @EntryPoint
@@ -205,6 +206,10 @@ class AppAuth @Inject constructor(
     fun removeAuth() {
         _authStateFlow.value = AuthState()
         with(prefs.edit()) {
+            clear()
+            commit()
+        }
+        with(userInfoPrefs.edit()) {
             clear()
             commit()
         }

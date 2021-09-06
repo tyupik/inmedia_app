@@ -1,5 +1,6 @@
 package ru.netology.inmedia.repository
 
+import android.content.Context
 import android.net.Uri
 import androidx.core.net.toFile
 import androidx.core.net.toUri
@@ -7,6 +8,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.map
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -38,7 +40,11 @@ class PostRepositoryImpl @Inject constructor(
     private val postApiService: PostApiService,
     postKeyDao: PostKeyDao,
     private val postWorkDao: PostWorkDao,
+    @ApplicationContext
+    context: Context
 ) : PostRepository {
+
+    private val userInfoPrefs = context.getSharedPreferences("user", Context.MODE_PRIVATE)
 
     @ExperimentalPagingApi
     override val data = Pager(
@@ -71,7 +77,9 @@ class PostRepositoryImpl @Inject constructor(
                 throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            postDao.insert(PostEntity.fromDto(body))
+            val name = userInfoPrefs.getString("userName", "")
+            val avatar = userInfoPrefs.getString("userAvatar", "")
+            postDao.insert(PostEntity.fromDto(body.copy(author = name.toString(), authorAvatar = avatar)))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -180,8 +188,8 @@ class PostRepositoryImpl @Inject constructor(
             val post = Post(
                 id = 0L,
                 authorId = entity.authorId,
-                author = entity.author,
-                authorAvatar = entity.authorAvatar,
+                author = "",
+                authorAvatar = "",
                 content = entity.content,
                 published = Instant.now().toString(),
                 link = entity.link,

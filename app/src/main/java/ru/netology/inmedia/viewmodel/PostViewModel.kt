@@ -1,5 +1,6 @@
 package ru.netology.inmedia.viewmodel
 
+import android.content.Context
 import android.net.Uri
 import androidx.core.net.toFile
 import androidx.lifecycle.LiveData
@@ -11,6 +12,7 @@ import androidx.work.*
 import com.google.firebase.installations.FirebaseInstallations
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -48,6 +50,8 @@ private val noPhoto = PhotoModel()
 @HiltViewModel
 @ExperimentalCoroutinesApi
 class PostViewModel @Inject constructor(
+    @ApplicationContext
+    context: Context,
     private val postRepository: PostRepository,
     private val workManager: WorkManager,
     auth: AppAuth,
@@ -55,6 +59,9 @@ class PostViewModel @Inject constructor(
 ) : ViewModel() {
 
 
+    private val userInfoPrefs = context.getSharedPreferences("user", Context.MODE_PRIVATE)
+    private val userName = "userName"
+    private val userAvatar = "userAvatar"
     private val cached = postRepository.data.cachedIn(viewModelScope)
     private val cachedUser = profileRepository.data.cachedIn(viewModelScope)
 
@@ -120,6 +127,11 @@ class PostViewModel @Inject constructor(
         try {
             _dataState.value = FeedModelState(loading = true)
             val us = profileRepository.getUserById(id)
+            with(userInfoPrefs.edit()) {
+                putString(userName, us.name)
+                putString(userAvatar, us.avatar)
+                apply()
+            }
             _user.value = user.value?.copy(id = us.id, login = us.login, name = us.name, avatar = us.avatar)
             _dataState.value = FeedModelState()
         } catch (e: Exception) {
@@ -194,7 +206,7 @@ class PostViewModel @Inject constructor(
         if (text == edited.value?.content) {
             return
         }
-        edited.value = edited.value?.copy(content = text)
+        edited.value = edited.value?.copy(content = text )
     }
 
 
@@ -215,7 +227,6 @@ class PostViewModel @Inject constructor(
                         .setConstraints(constraints)
                         .build()
                     workManager.enqueue(request)
-
                     _dataState.value = FeedModelState()
                 } catch (e: Exception) {
                     e.printStackTrace()
