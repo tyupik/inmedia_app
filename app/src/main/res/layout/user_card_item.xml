@@ -21,9 +21,40 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/avatarIv"
+        app:layout_constraintBottom_toTopOf="@id/workIn"
         app:layout_constraintStart_toEndOf="@id/avatarIv"
         app:layout_constraintTop_toTopOf="@id/avatarIv"
         tools:text="NAME" />
+    <TextView
+        android:id="@+id/workIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/place_of_work"
+        app:layout_constraintStart_toStartOf="@id/name"
+        app:layout_constraintBottom_toTopOf="@id/job"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/job"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="место работы"
+        app:layout_constraintTop_toBottomOf="@id/workIn"
+        app:layout_constraintBottom_toBottomOf="@id/avatarIv"
+        app:layout_constraintStart_toStartOf="@id/name"
+        android:textColor="@color/black"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        tools:ignore="MissingConstraints" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:clickable="false"
+        app:rippleColor="@color/cardview_dark_background"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/avatarIv"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

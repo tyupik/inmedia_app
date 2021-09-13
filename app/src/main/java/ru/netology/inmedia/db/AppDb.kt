@@ -14,7 +14,8 @@ import ru.netology.inmedia.entity.EventEntity
         PostWorkEntity::class,
         EventEntity::class,
         EventRemoteKeyEntity::class,
-        EventWorkEntity::class], version = 4, exportSchema = false
+        EventWorkEntity::class,
+        JobEntity::class], version = 5, exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDb : RoomDatabase() {
@@ -24,5 +25,6 @@ abstract class AppDb : RoomDatabase() {
     abstract fun postWorkDao(): PostWorkDao
     abstract fun eventWorkDao(): EventWorkDao
     abstract fun eventRemoteKeyDao(): EventKeyDao
+    abstract fun jobDao(): JobDao
 
 }

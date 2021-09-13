@@ -34,4 +34,5 @@
     <string name="unparticipate">Не принимать участие</string>
     <string name="datetime">Date of the event</string>
     <string name="event_type">Event type (online/offline)</string>
+    <string name="place_of_work">Place of work:</string>
 </resources>
