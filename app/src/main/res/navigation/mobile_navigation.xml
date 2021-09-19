@@ -17,6 +17,12 @@
         <action
             android:id="@+id/action_navigation_home_to_fragment_new_post"
             app:destination="@id/fragment_new_post" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_jobs_feed"
+            app:destination="@id/navigation_jobs_feed" />
+        <action
+            android:id="@+id/action_navigation_home_to_fragment_new_job"
+            app:destination="@id/fragment_new_job" />
     </fragment>
 
     <fragment
@@ -46,6 +52,16 @@
         <action
             android:id="@+id/action_navigation_events_to_attach_photo_viewer"
             app:destination="@id/attach_photo_viewer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_jobs_feed"
+        android:name="ru.netology.inmedia.ui.JobFragment"
+        android:label="@string/place_of_work"
+        tools:layout="@layout/fragment_jobs_feed" >
+        <action
+            android:id="@+id/action_navigation_jobs_feed_to_fragment_new_job"
+            app:destination="@id/fragment_new_job" />
     </fragment>
 
     <fragment
@@ -82,6 +98,10 @@
         android:id="@+id/fragment_new_event"
         android:name="ru.netology.inmedia.ui.NewEventFragment"
         tools:layout="@layout/fragment_new_event" />
+    <fragment
+        android:id="@+id/fragment_new_job"
+        android:name="ru.netology.inmedia.ui.NewJobFragment"
+        tools:layout="@layout/fragment_new_job" />
 
 
 

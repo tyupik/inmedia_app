@@ -5,26 +5,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/avatarIv"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="50dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@sample/posts.json/data/authorAvatar"
-            />
+    <ImageView
+        android:id="@+id/avatarIv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@sample/posts.json/data/authorAvatar"
+        />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/avatarIv"
-            app:layout_constraintStart_toEndOf="@id/avatarIv"
-            app:layout_constraintTop_toTopOf="@id/avatarIv"
-            tools:text="NAME" />
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/workIn"
+        app:layout_constraintStart_toEndOf="@id/avatarIv"
+        app:layout_constraintTop_toTopOf="@id/avatarIv"
+        tools:text="NAME" />
+    <TextView
+        android:id="@+id/workIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:text="@string/place_of_work"
+        app:layout_constraintStart_toStartOf="@id/name"
+        app:layout_constraintBottom_toTopOf="@id/job"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/job"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Места работы"
+        app:layout_constraintTop_toBottomOf="@id/workIn"
+        app:layout_constraintBottom_toBottomOf="@id/avatarIv"
+        app:layout_constraintStart_toStartOf="@id/name"
+        android:textColor="@color/text_color"
+        style="@style/IconButton"
+        tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_job"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/job"
+        app:layout_constraintBottom_toBottomOf="@id/job"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:icon="@drawable/ic__add_grey_24"
+        style="@style/Widget.AppTheme.LikeCheckBox"
+        tools:ignore="MissingConstraints" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:clickable="false"
+        app:rippleColor="@color/cardview_dark_background"
+        tools:ignore="MissingConstraints"
+        style="@style/Widget.AppTheme.GreyButton"
+        app:layout_constraintTop_toBottomOf="@id/avatarIv"
+        />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"

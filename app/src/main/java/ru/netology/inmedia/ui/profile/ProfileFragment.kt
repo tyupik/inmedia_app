@@ -27,6 +27,7 @@ import ru.netology.inmedia.databinding.FragmentProfileBinding
 import ru.netology.inmedia.dto.Post
 import ru.netology.inmedia.ui.NewPostFragment.Companion.textArg
 import ru.netology.inmedia.viewmodel.AuthViewModel
+import ru.netology.inmedia.viewmodel.JobViewModel
 import ru.netology.inmedia.viewmodel.PostViewModel
 import javax.inject.Inject
 
@@ -43,6 +44,10 @@ class ProfileFragment : Fragment() {
 //        ownerProducer = ::requireParentFragment
 //    )
     private val postViewModel: PostViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
+
+    private val jobViewModel: JobViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
 
@@ -106,6 +111,11 @@ class ProfileFragment : Fragment() {
             postViewModel.loadUserPosts()
         }
 
+        binding.job.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_navigation_home_to_navigation_jobs_feed
+            )
+        }
 
 
         postViewModel.dataState.observe(viewLifecycleOwner) { state ->
@@ -124,8 +134,6 @@ class ProfileFragment : Fragment() {
                 adapter.submitData(it)
             }
         }
-        /*Только один юзер, нужен ли ViewHolder в таком случае?
-        Не плохо ли, что биндинг прямо во фрагменте?*/
 
         postViewModel.loadUserProfile(auth.getMyId())
         postViewModel.user.observe(viewLifecycleOwner) { user ->
@@ -139,10 +147,23 @@ class ProfileFragment : Fragment() {
                 .into(binding.avatarIv)
         }
 
+        jobViewModel.data.observe(viewLifecycleOwner, {state ->
+            val jobs = state.jobs
+            for (job in jobs) {
+                if (job.finish == null) {
+                    binding.workIn.visibility = View.VISIBLE
+                    binding.workIn.text = job.name
+                }
+            }
+        })
+
         binding.retryButton.setOnClickListener {
             postViewModel.loadUserPosts()
         }
 
+        binding.addJob.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_fragment_new_job)
+        }
         return binding.root
     }
 

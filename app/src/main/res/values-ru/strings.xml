@@ -35,6 +35,12 @@
     <string name="unparticipate">Не принимать участие</string>
     <string name="datetime">Дата проведения мероприятия</string>
     <string name="event_type">Тип мероприятия (online/offline)</string>
-    <string name="place_of_work">Место работы:</string>
+    <string name="place_of_work">Места работы</string>
+    <string name="employment_date">Дата приема на работу:</string>
+    <string name="set_date">Установить</string>
+    <string name="dismissal_date">Дата увольнения:</string>
+    <string name="company_name">Название компании</string>
+    <string name="position">Должность</string>
+    <string name="error_empty_job_fields">Не все поля были заполнены</string>
 
 </resources>
