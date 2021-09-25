@@ -216,7 +216,7 @@ class EventRepositoryImpl @Inject constructor(
             val entity = eventWorkDao.getById(id)
 
             val event = Event(
-                id = 0L,
+                id = entity.id,
                 authorId = entity.authorId,
                 author = entity.author,
                 authorAvatar = entity.authorAvatar,

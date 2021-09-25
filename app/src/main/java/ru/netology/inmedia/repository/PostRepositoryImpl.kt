@@ -186,7 +186,7 @@ class PostRepositoryImpl @Inject constructor(
             val entity = postWorkDao.getById(id)
 
             val post = Post(
-                id = 0L,
+                id = entity.id,
                 authorId = entity.authorId,
                 author = "",
                 authorAvatar = "",

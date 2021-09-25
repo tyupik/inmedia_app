@@ -17,9 +17,9 @@ class SaveEventWorker(
 
     override suspend fun doWork(): Result {
         val id = inputData.getLong(eventKey, 0L)
-        if (id == 0L) {
-            return Result.failure()
-        }
+//        if (id == 0L) {
+//            return Result.failure()
+//        }
 
         return try {
             repository.processWork(id)

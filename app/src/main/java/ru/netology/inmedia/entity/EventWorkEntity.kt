@@ -7,7 +7,7 @@ import ru.netology.inmedia.dto.Event
 
 @Entity
 class EventWorkEntity(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     val id: Long,
     val authorId: Long,
     val author: String,

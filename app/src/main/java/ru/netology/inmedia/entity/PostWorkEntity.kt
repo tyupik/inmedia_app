@@ -8,7 +8,7 @@ import java.time.Instant
 
 @Entity
 data class PostWorkEntity(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     val id: Long,
     val authorId: Long,
     val author: String,

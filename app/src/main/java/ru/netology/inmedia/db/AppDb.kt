@@ -15,7 +15,7 @@ import ru.netology.inmedia.entity.EventEntity
         EventEntity::class,
         EventRemoteKeyEntity::class,
         EventWorkEntity::class,
-        JobEntity::class], version = 5, exportSchema = false
+        JobEntity::class], version = 2, exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDb : RoomDatabase() {

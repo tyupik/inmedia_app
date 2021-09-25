@@ -21,7 +21,7 @@ class AttachViewerFragment : Fragment() {
 
 
 
-    val BASE_URL = "${BuildConfig.BASE_URL}"
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

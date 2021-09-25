@@ -23,6 +23,7 @@ import ru.netology.inmedia.adapter.PostAdapter
 import ru.netology.inmedia.adapter.PostAdapterClickListener
 import ru.netology.inmedia.databinding.FragmentFeedBinding
 import ru.netology.inmedia.dto.Post
+import ru.netology.inmedia.ui.NewPostFragment.Companion.photoArg
 import ru.netology.inmedia.ui.NewPostFragment.Companion.textArg
 import ru.netology.inmedia.viewmodel.AuthViewModel
 import ru.netology.inmedia.viewmodel.PostViewModel
@@ -60,6 +61,7 @@ class FeedFragment : Fragment() {
                         R.id.action_feedFragment_to_new_post_fragment,
                         Bundle().apply {
                             textArg = post.content
+                            photoArg = post.attachment?.url
                         }
                     )
                     postViewModel.edit(post)

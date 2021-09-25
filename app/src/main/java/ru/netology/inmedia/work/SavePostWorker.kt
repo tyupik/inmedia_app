@@ -18,9 +18,9 @@ class SavePostWorker(
 
     override suspend fun doWork(): Result {
         val id = inputData.getLong(postKey, 0L)
-        if (id == 0L) {
-            return Result.failure()
-        }
+//        if (id == 0L) {
+//            return Result.failure()
+//        }
 
         return try {
             repository.processWork(id)

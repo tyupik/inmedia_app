@@ -92,6 +92,7 @@ class PostViewModel @Inject constructor(
         get() = _dataState
 
     private val edited = MutableLiveData(defaultPost)
+
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
         get() = _postCreated
@@ -210,11 +211,12 @@ class PostViewModel @Inject constructor(
     }
 
 
-    fun save(photoValue: PhotoModel) = viewModelScope.launch {
+    fun save(photoValue: PhotoModel)  {
         edited.value?.let { post ->
             _postCreated.value = Unit
             viewModelScope.launch {
                 try {
+                    print (post)
                     val id = postRepository.saveWork(
                         post, photoValue.uri?.let { MediaUpload(it.toFile()) }
                     )
@@ -228,6 +230,7 @@ class PostViewModel @Inject constructor(
                         .build()
                     workManager.enqueue(request)
                     _dataState.value = FeedModelState()
+//                    edited.value = defaultPost
                 } catch (e: Exception) {
                     e.printStackTrace()
                     _dataState.value = FeedModelState(error = true)

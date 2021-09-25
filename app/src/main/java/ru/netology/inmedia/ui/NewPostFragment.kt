@@ -1,6 +1,8 @@
 package ru.netology.inmedia.ui
 
 import android.app.Activity
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -8,21 +10,31 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.*
 import ru.netology.inmedia.R
 import ru.netology.inmedia.databinding.FragmentNewPostBinding
 import ru.netology.inmedia.model.FeedModelState
 import ru.netology.inmedia.model.PhotoModel
 import ru.netology.inmedia.utils.AndroidUtils.hideKeyboard
 import ru.netology.inmedia.viewmodel.PostViewModel
-import java.io.File
-import javax.inject.Inject
+import android.graphics.BitmapFactory
+
+import android.graphics.Bitmap
+import android.provider.MediaStore
+import android.util.Log
+import java.net.URL
+import java.net.URLConnection
+import android.provider.MediaStore.Images
+import java.io.*
 
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class NewPostFragment : Fragment() {
     private val photoRequestCode = 1
@@ -42,14 +54,15 @@ class NewPostFragment : Fragment() {
     private var photoValue = PhotoModel(null)
 
 
-
-
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
+        return when (item.itemId) {
             R.id.save -> {
                 if (fragmentBinding?.edit?.text?.isBlank() == true) {
-                    Toast.makeText(requireContext(), R.string.error_empty_content, Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.error_empty_content,
+                        Toast.LENGTH_LONG
+                    ).show()
                     return false
                 }
                 fragmentBinding?.let {
@@ -60,7 +73,11 @@ class NewPostFragment : Fragment() {
                         findNavController().navigateUp()
                     } else {
                         print(viewModel.dataState.value)
-                        Toast.makeText(requireContext(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.something_went_wrong),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
                 true
@@ -71,9 +88,13 @@ class NewPostFragment : Fragment() {
 
     companion object {
         private const val TEXT_KEY = "TEXT_KEY"
+        private const val PHOTO_KEY = "PHOTO_KEY"
         var Bundle.textArg: String?
             set(value) = putString(TEXT_KEY, value)
             get() = getString(TEXT_KEY)
+        var Bundle.photoArg: String?
+            set(value) = putString(PHOTO_KEY, value)
+            get() = getString(PHOTO_KEY)
     }
 
     private val viewModel: PostViewModel by viewModels(
@@ -84,7 +105,7 @@ class NewPostFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreate(savedInstanceState)
 
         val binding = FragmentNewPostBinding.inflate(
@@ -92,8 +113,16 @@ class NewPostFragment : Fragment() {
             container,
             false
         )
+        viewModel.changePhoto(null)
+        photoValue = PhotoModel(null)
 
-        arguments?.textArg?.let (binding.edit::setText)
+        arguments?.textArg?.let(binding.edit::setText)
+
+        arguments?.photoArg?.let { url->
+            val uri = Uri.parse(url)
+            viewModel.changePhoto(uri)
+            photoValue = PhotoModel(uri)
+        }
 
         fragmentBinding = binding
 
@@ -102,10 +131,12 @@ class NewPostFragment : Fragment() {
                 .crop()
                 .compress(2048)
                 .galleryOnly()
-                .galleryMimeTypes(arrayOf(
-                    "image/png",
-                    "image/jpeg",
-                ))
+                .galleryMimeTypes(
+                    arrayOf(
+                        "image/png",
+                        "image/jpeg",
+                    )
+                )
                 .start(photoRequestCode)
         }
 
@@ -121,6 +152,8 @@ class NewPostFragment : Fragment() {
             viewModel.changePhoto(null)
         }
         viewModel.photo.observe(viewLifecycleOwner) {
+
+
             if (it.uri == null) {
                 binding.photoContainer.visibility = View.GONE
                 return@observe
@@ -128,6 +161,12 @@ class NewPostFragment : Fragment() {
 
             binding.photoContainer.visibility = View.VISIBLE
             binding.photo.setImageURI(it.uri)
+            Glide.with(binding.photo)
+                .load("${it.uri}")
+                .error(R.drawable.ic_error_100dp)
+                .timeout(10_000)
+                .into(binding.photo)
+
         }
 
         viewModel.postCreated.observe(viewLifecycleOwner) {
@@ -139,7 +178,7 @@ class NewPostFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == ImagePicker.RESULT_ERROR) {
+        if (resultCode == ImagePicker.RESULT_ERROR) {
             fragmentBinding?.let {
                 Snackbar.make(it.root, ImagePicker.getError(data), Snackbar.LENGTH_LONG).show()
             }
@@ -147,14 +186,12 @@ class NewPostFragment : Fragment() {
         }
         if (resultCode == Activity.RESULT_OK && requestCode == photoRequestCode) {
             val uri: Uri? = data?.data
-//            val file: File? = ImagePicker.getFile(data)
             viewModel.changePhoto(uri)
             photoValue = PhotoModel(uri)
             return
         }
         if (resultCode == Activity.RESULT_OK && requestCode == cameraRequestCode) {
             val uri: Uri? = data?.data
-//            val file: File? = ImagePicker.getFile(data)
             viewModel.changePhoto(uri)
             photoValue = PhotoModel(uri)
             return
