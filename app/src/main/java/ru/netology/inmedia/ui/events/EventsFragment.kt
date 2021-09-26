@@ -22,6 +22,10 @@ import ru.netology.inmedia.adapter.EventAdapterClickListener
 import ru.netology.inmedia.adapter.PagingLoadStateAdapter
 import ru.netology.inmedia.databinding.FragmentEventsBinding
 import ru.netology.inmedia.dto.Event
+import ru.netology.inmedia.entity.TypeEmbeddable
+import ru.netology.inmedia.ui.NewEventFragment.Companion.datetimeArg
+import ru.netology.inmedia.ui.NewEventFragment.Companion.typeArg
+import ru.netology.inmedia.ui.NewPostFragment.Companion.photoArg
 import ru.netology.inmedia.ui.NewPostFragment.Companion.textArg
 import ru.netology.inmedia.viewmodel.AuthViewModel
 import ru.netology.inmedia.viewmodel.EventsViewModel
@@ -58,6 +62,9 @@ class EventsFragment : Fragment() {
                         R.id.action_navigation_events_to_fragment_new_event,
                         Bundle().apply {
                             textArg = event.content
+                            datetimeArg = event.datetime
+                            typeArg = TypeEmbeddable.fromDto(event.type).eventType
+                            photoArg = event.attachment?.url
                         }
                     )
                     eventViewModel.edit(event)

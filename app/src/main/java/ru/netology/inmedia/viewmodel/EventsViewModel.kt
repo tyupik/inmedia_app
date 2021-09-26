@@ -60,10 +60,12 @@ class EventsViewModel @Inject constructor(
             cached.map { pagingData ->
                 pagingData.map { event ->
                     print(event)
-                    EventModel(event.copy(
-                        ownedByMe = event.authorId == myId,
-                        participatedByMe = event.participatedByMe
-                    ))
+                    EventModel(
+                        event.copy(
+                            ownedByMe = event.authorId == myId,
+                            participatedByMe = event.participatedByMe
+                        )
+                    )
                 }
             }
         }
@@ -150,7 +152,7 @@ class EventsViewModel @Inject constructor(
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
-            val request = OneTimeWorkRequestBuilder<RemoveEventWorker   >()
+            val request = OneTimeWorkRequestBuilder<RemoveEventWorker>()
                 .setInputData(data)
                 .setConstraints(constraints)
                 .build()
@@ -160,26 +162,24 @@ class EventsViewModel @Inject constructor(
 
     fun changeContent(content: String, datetime: String, type: String) {
         val text = content.trim()
-        if (text == edited.value?.content) {
-            return
-        }
         val datetime = datetime.trim()
-        if (datetime == edited.value?.datetime) {
+        val type = TypeEmbeddable(type).toDto()
+        print(edited.value?.content)
+        if (text == edited.value?.content && datetime == edited.value?.datetime && type == edited.value?.type) {
             return
         }
-        val type = TypeEmbeddable(type).toDto()
         edited.value = edited.value?.copy(content = text, datetime = datetime, type = type)
     }
 
 
-
-    fun save(photoValue: PhotoModel) = viewModelScope.launch {
+    fun save(photoValue: PhotoModel) {
         edited.value?.let { event ->
             _eventCreated.value = Unit
             viewModelScope.launch {
                 try {
                     val id = eventRepository.saveWork(
-                        event, photoValue.uri?.let { MediaUpload(it.toFile()) }
+                        event,
+                        photoValue.uri?.let { MediaUpload(it.toFile()) }
                     )
                     val data = workDataOf(SaveEventWorker.eventKey to id)
                     val constraints = Constraints.Builder()

@@ -230,7 +230,6 @@ class PostViewModel @Inject constructor(
                         .build()
                     workManager.enqueue(request)
                     _dataState.value = FeedModelState()
-//                    edited.value = defaultPost
                 } catch (e: Exception) {
                     e.printStackTrace()
                     _dataState.value = FeedModelState(error = true)

@@ -28,6 +28,8 @@ import javax.xml.datatype.DatatypeConstants.MONTHS
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.widget.*
+import com.bumptech.glide.Glide
+import ru.netology.inmedia.ui.NewPostFragment.Companion.photoArg
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalQueries.localDate
@@ -74,7 +76,6 @@ class NewEventFragment : Fragment() {
                     viewModel.changeContent(
                         it.edit.text.toString(),
                         dateTime,
-//                        it.dateTimeET.text.toString(),
                         itemType
                     )
                     viewModel.save(photoValue)
@@ -98,9 +99,26 @@ class NewEventFragment : Fragment() {
 
     companion object {
         private const val TEXT_KEY = "TEXT_KEY"
+        private const val DATETIME_KEY = "DATETIME_KEY"
+        private const val TYPE_KEY = "TYPE_KEY"
+        private const val PHOTO_KEY = "PHOTO_KEY"
+
         var Bundle.textArg: String?
             set(value) = putString(TEXT_KEY, value)
             get() = getString(TEXT_KEY)
+
+        var Bundle.datetimeArg: String?
+            set(value) = putString(DATETIME_KEY, value)
+            get() = getString(DATETIME_KEY)
+
+        var Bundle.typeArg: String?
+            set(value) = putString(TYPE_KEY, value)
+            get() = getString(TYPE_KEY)
+
+        var Bundle.photoArg: String?
+            set(value) = putString(PHOTO_KEY, value)
+            get() = getString(PHOTO_KEY)
+
     }
 
     private val viewModel: EventsViewModel by viewModels(
@@ -122,6 +140,20 @@ class NewEventFragment : Fragment() {
         )
 
         arguments?.textArg?.let(binding.edit::setText)
+        arguments?.datetimeArg?.let{
+            dateTime = it
+            binding.dateTimeET.text =
+                DateTimeFormatter.ofPattern("dd.MM.yyyy 'в' HH:mm ")
+                .withZone(ZoneId.of("Europe/Moscow"))
+                .format(Instant.parse(it))
+        }
+
+        arguments?.photoArg?.let { url->
+            val uri = Uri.parse(url)
+            viewModel.changePhoto(uri)
+            photoValue = PhotoModel(uri)
+        }
+
 
         fragmentBinding = binding
 
@@ -171,7 +203,19 @@ class NewEventFragment : Fragment() {
 
         binding.eventTypeET.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                itemType = parent?.getItemAtPosition(position) as String
+                if (arguments?.typeArg != null) {
+                    arguments?.typeArg?.let { type ->
+                        if (type == "ONLINE"){
+                            binding.eventTypeET.setSelection(0)
+                            itemType = parent?.getItemAtPosition(0) as String
+                        } else {
+                            binding.eventTypeET.setSelection(1)
+                            itemType = parent?.getItemAtPosition(1) as String
+                        }
+//                        itemType = type
+                        arguments?.typeArg = null
+                    }
+                } else itemType = parent?.getItemAtPosition(position) as String
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -203,6 +247,7 @@ class NewEventFragment : Fragment() {
 
         binding.removePhoto.setOnClickListener {
             viewModel.changePhoto(null)
+            photoValue = PhotoModel(null)
         }
         viewModel.photo.observe(viewLifecycleOwner) {
             if (it.uri == null) {
@@ -212,6 +257,12 @@ class NewEventFragment : Fragment() {
 
             binding.photoContainer.visibility = View.VISIBLE
             binding.photo.setImageURI(it.uri)
+
+            Glide.with(binding.photo)
+                .load("${it.uri}")
+                .error(R.drawable.ic_error_100dp)
+                .timeout(10_000)
+                .into(binding.photo)
         }
 
         viewModel.eventCreated.observe(viewLifecycleOwner) {
