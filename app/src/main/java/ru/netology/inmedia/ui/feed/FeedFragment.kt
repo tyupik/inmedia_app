@@ -21,6 +21,7 @@ import ru.netology.inmedia.R
 import ru.netology.inmedia.adapter.PagingLoadStateAdapter
 import ru.netology.inmedia.adapter.PostAdapter
 import ru.netology.inmedia.adapter.PostAdapterClickListener
+import ru.netology.inmedia.auth.AppAuth
 import ru.netology.inmedia.databinding.FragmentFeedBinding
 import ru.netology.inmedia.dto.Post
 import ru.netology.inmedia.ui.NewPostFragment.Companion.photoArg
@@ -33,6 +34,9 @@ import javax.inject.Inject
 class FeedFragment : Fragment() {
     @Inject
     lateinit var viewModel: AuthViewModel
+
+    @Inject
+    lateinit var auth: AppAuth
 
     val postViewModel: PostViewModel by viewModels(
         ownerProducer = ::requireParentFragment
@@ -111,6 +115,8 @@ class FeedFragment : Fragment() {
                     .show()
             }
         })
+
+        postViewModel.loadUserProfile(auth.getMyId())
 
         lifecycleScope.launchWhenCreated {
             postViewModel.data.collectLatest {

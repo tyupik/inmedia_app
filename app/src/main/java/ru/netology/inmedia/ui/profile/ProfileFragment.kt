@@ -40,6 +40,7 @@ class ProfileFragment : Fragment() {
     lateinit var auth: AppAuth
 
 
+
     //    private val profileViewModel: ProfileViewModel by viewModels(
 //        ownerProducer = ::requireParentFragment
 //    )
@@ -50,6 +51,7 @@ class ProfileFragment : Fragment() {
     private val jobViewModel: JobViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
+
 
 
     override fun onCreateView(
